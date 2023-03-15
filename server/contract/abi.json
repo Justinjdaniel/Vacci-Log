@@ -1,0 +1,141 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "PatientUID",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "age",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum VaccinationLog.Sex",
+        "name": "gender",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "location",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "age",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum VaccinationLog.Sex",
+        "name": "gender",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "location",
+        "type": "string"
+      }
+    ],
+    "name": "createPatient",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "patientId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "vaccineCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "getVaccineDetails",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "patientUID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineBottleNumber",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccinationDate",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "patientUID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineBottleNumber",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccinationDate",
+        "type": "string"
+      }
+    ],
+    "name": "setVaccineData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
