@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "name": "UI",
+      "path": "client"
+    },
+    {
+      "name": "server",
+      "path": "server"
+    },
+    {
+      "name": "root",
+      "path": "."
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "aaron-bond.better-comments"
+    ]
+  }
+}
