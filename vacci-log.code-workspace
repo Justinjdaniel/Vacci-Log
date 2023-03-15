@@ -8,10 +8,6 @@
       "name": "server",
       "path": "server"
     },
-    {
-      "name": "root",
-      "path": "."
-    }
   ],
   "extensions": {
     "recommendations": [
