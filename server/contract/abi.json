@@ -93,6 +93,36 @@
       },
       {
         "internalType": "string",
+        "name": "patientName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "patientAge",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum VaccinationLog.Sex",
+        "name": "patientGender",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "patientLocation",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineManufactrer",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineBatchId",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "vaccineName",
         "type": "string"
       },
@@ -120,6 +150,16 @@
       {
         "internalType": "string",
         "name": "vaccineName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineManufactrer",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineBatchId",
         "type": "string"
       },
       {
