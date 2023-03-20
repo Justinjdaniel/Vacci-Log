@@ -17,6 +17,7 @@
     "joi": "^17.8.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0",
+    "validator": "^13.9.0",
     "morgan": "~1.9.1",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2"
