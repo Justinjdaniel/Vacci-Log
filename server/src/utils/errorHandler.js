@@ -14,14 +14,3 @@ export const errorHandler = (error, req, res, next) => {
     message: 'something went wrong...',
   });
 };
-
-// app.use((req, res, next) => {
-//   res
-//     .status(404)
-//     .json({ message: "We couldn't find what you were looking for 😞" });
-// });
-
-// app.use( (err, req, res, next) {
-//   console.error(err.stack);
-//   res.status(500).json(err);
-// });
