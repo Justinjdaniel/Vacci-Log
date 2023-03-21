@@ -24,7 +24,7 @@ contract VaccinationLog {
     struct Vaccine {
         uint256 patientUID; // patient unique id
         string vaccineName; // vaccine name
-        string vaccineManufactrer; // vaccine manufacturer
+        string vaccineManufacturer; // vaccine manufacturer
         string vaccineBatchId; // vaccine batch id
         string vaccineBottleNumber; // serial number of vaccine bottle
         string vaccinationDate; // vaccination date
@@ -61,7 +61,7 @@ contract VaccinationLog {
      * @dev Create vaccination details of patient
      * @param patientUID unique id of patient
      * @param vaccineName vaccine name
-     * @param vaccineManufactrer  vaccine manufacturer
+     * @param vaccineManufacturer  vaccine manufacturer
      * @param vaccineBatchId vaccine batch id
      * @param vaccineBottleNumber vaccine bottle number
      * @param vaccinationDate vaccination date
@@ -69,7 +69,7 @@ contract VaccinationLog {
     function setVaccineData(
         uint256 patientUID,
         string memory vaccineName,
-        string memory vaccineManufactrer,
+        string memory vaccineManufacturer,
         string memory vaccineBatchId,
         string memory vaccineBottleNumber,
         string memory vaccinationDate
@@ -78,7 +78,7 @@ contract VaccinationLog {
         _patientId[patientUID][_vaccineCount[patientUID]] = Vaccine(
             patientUID,
             vaccineName,
-            vaccineManufactrer,
+            vaccineManufacturer,
             vaccineBatchId,
             vaccineBottleNumber,
             vaccinationDate
@@ -94,7 +94,7 @@ contract VaccinationLog {
      * @return patientAge patient age,
      * @return patientGender patient gender,
      * @return patientLocation patient location,
-     * @return vaccineManufactrer  vaccine manufacturer
+     * @return vaccineManufacturer  vaccine manufacturer
      * @return vaccineBatchId vaccine batch id
      * @return vaccineName vaccine name
      * @return vaccineBottleNumber vaccine bottle number
@@ -112,7 +112,7 @@ contract VaccinationLog {
             uint256 patientAge,
             Sex patientGender,
             string memory patientLocation,
-            string memory vaccineManufactrer,
+            string memory vaccineManufacturer,
             string memory vaccineBatchId,
             string memory vaccineName,
             string memory vaccineBottleNumber,
@@ -124,8 +124,8 @@ contract VaccinationLog {
         patientAge = PatientUID[patientId].age;
         patientGender = PatientUID[patientId].gender;
         patientLocation = PatientUID[patientId].location;
-        vaccineManufactrer = _patientId[patientId][vaccineCount]
-            .vaccineManufactrer;
+        vaccineManufacturer = _patientId[patientId][vaccineCount]
+            .vaccineManufacturer;
         vaccineBatchId = _patientId[patientId][vaccineCount].vaccineBatchId;
         vaccineName = _patientId[patientId][vaccineCount].vaccineName;
         vaccineBottleNumber = _patientId[patientId][vaccineCount]

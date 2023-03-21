@@ -113,7 +113,7 @@
       },
       {
         "internalType": "string",
-        "name": "vaccineManufactrer",
+        "name": "vaccineManufacturer",
         "type": "string"
       },
       {
@@ -154,7 +154,7 @@
       },
       {
         "internalType": "string",
-        "name": "vaccineManufactrer",
+        "name": "vaccineManufacturer",
         "type": "string"
       },
       {
