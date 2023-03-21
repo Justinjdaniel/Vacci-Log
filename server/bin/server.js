@@ -9,7 +9,7 @@ import http from 'http';
 
 import app from '../app.js';
 
-const debug = debugLib('vacci-log-server:server');
+const debug = debugLib('vacci-log:server');
 
 /**
  * Get port from environment and store in Express.

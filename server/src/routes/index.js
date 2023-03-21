@@ -1,8 +1,32 @@
 import { Router } from 'express';
+import docsRoute from './docs.route.js';
+import userRoute from './user.route.js';
+
 const router = Router();
 
-router.get('/',( req, res,next)=>{
-  res.send('router is working')
-})
+const defaultRoutes = [
+  {
+    path: '/user',
+    route: userRoute,
+  },
+];
+
+const devRoutes = [
+  // routes available only in development mode
+  {
+    path: '/docs',
+    route: docsRoute,
+  },
+];
+
+defaultRoutes.forEach((route) => {
+  router.use(route.path, route.route);
+});
+
+if (process.env.NODE_ENV === 'development') {
+  devRoutes.forEach((route) => {
+    router.use(route.path, route.route);
+  });
+}
 
 export default router;
