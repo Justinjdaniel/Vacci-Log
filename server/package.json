@@ -1,5 +1,6 @@
 {
   "name": "vacci-log-server",
+  "description": "Server of Vacci Log Blockchain Dapp",
   "version": "2.0.0",
   "private": true,
   "type": "module",
@@ -7,6 +8,16 @@
     "start": "node ./bin/server",
     "dev": "DEBUG=vacci-log:* nodemon start"
   },
+  "keywords": [
+    "Blockchain, EVM, EthersJs, Vaccine, Dapp"
+  ],
+  "repository": {
+    "directory": "https://github.com/Justinjdaniel/Vacci-Log",
+    "type": "git",
+    "url": "https://github.com/Justinjdaniel/Vacci-Log.git"
+  },
+  "license": "MIT",
+  "author": "Justin J Daniel",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
@@ -14,6 +25,7 @@
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
+    "http-status": "^1.6.2",
     "joi": "^17.8.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0",
@@ -40,12 +52,11 @@
     "#config/*": "./src/config/*",
     "#controllers/*": "./src/controllers/*",
     "#db/*": "./src/db/*",
-    "#error/*": "./src/error/*",
     "#logs/*": "./src/logs/*",
     "#middleware/*": "./src/middleware/*",
     "#models/*": "./src/models/*",
     "#routes/*": "./src/routes/*",
     "#services/*": "./src/services/*",
-    "#utils/*": "./src/routes/*"
+    "#utils/*": "./src/utils/*"
   }
 }
