@@ -23,11 +23,13 @@ contract VaccinationLog {
 
     struct Vaccine {
         uint256 patientUID; // patient unique id
+        string vaccinatedFor; // Type of disease vaccinated for
         string vaccineName; // vaccine name
         string vaccineManufacturer; // vaccine manufacturer
         string vaccineBatchId; // vaccine batch id
         string vaccineBottleNumber; // serial number of vaccine bottle
-        string vaccinationDate; // vaccination date
+        string vaccinatedDate; // vaccination date
+        string vaccinatorId; // vaccinator id
     }
 
     // Linking Patient UID to the patient details
@@ -60,28 +62,34 @@ contract VaccinationLog {
     /**
      * @dev Create vaccination details of patient
      * @param patientUID unique id of patient
+     * @param vaccinatedFor Type of disease vaccinated for
      * @param vaccineName vaccine name
      * @param vaccineManufacturer  vaccine manufacturer
      * @param vaccineBatchId vaccine batch id
      * @param vaccineBottleNumber vaccine bottle number
-     * @param vaccinationDate vaccination date
+     * @param vaccinatedDate vaccination date
+     * @param vaccinatorId vaccinator id
      */
     function setVaccineData(
         uint256 patientUID,
+        string memory vaccinatedFor,
         string memory vaccineName,
         string memory vaccineManufacturer,
         string memory vaccineBatchId,
         string memory vaccineBottleNumber,
-        string memory vaccinationDate
+        string memory vaccinatedDate,
+        string memory vaccinatorId
     ) public {
         _vaccineCount[patientUID] += 1;
         _patientId[patientUID][_vaccineCount[patientUID]] = Vaccine(
             patientUID,
+            vaccinatedFor,
             vaccineName,
             vaccineManufacturer,
             vaccineBatchId,
             vaccineBottleNumber,
-            vaccinationDate
+            vaccinatedDate,
+            vaccinatorId
         );
     }
 
@@ -94,11 +102,13 @@ contract VaccinationLog {
      * @return patientAge patient age,
      * @return patientGender patient gender,
      * @return patientLocation patient location,
+     * @return vaccinatedFor vaccine for which type of diease
+     * @return vaccineName vaccine name
      * @return vaccineManufacturer  vaccine manufacturer
      * @return vaccineBatchId vaccine batch id
-     * @return vaccineName vaccine name
      * @return vaccineBottleNumber vaccine bottle number
-     * @return vaccinationDate vaccination date
+     * @return vaccinatedDate vaccination date
+     * @return vaccinatorId vaccination date
      */
     function getVaccineDetails(
         uint256 patientId,
@@ -112,11 +122,13 @@ contract VaccinationLog {
             uint256 patientAge,
             Sex patientGender,
             string memory patientLocation,
+            string memory vaccinatedFor,
+            string memory vaccineName,
             string memory vaccineManufacturer,
             string memory vaccineBatchId,
-            string memory vaccineName,
             string memory vaccineBottleNumber,
-            string memory vaccinationDate
+            string memory vaccinatedDate,
+            string memory vaccinatorId
         )
     {
         patientUID = _patientId[patientId][vaccineCount].patientUID;
@@ -124,12 +136,14 @@ contract VaccinationLog {
         patientAge = PatientUID[patientId].age;
         patientGender = PatientUID[patientId].gender;
         patientLocation = PatientUID[patientId].location;
+        vaccinatedFor = _patientId[patientId][vaccineCount].vaccinatedFor;
+        vaccineName = _patientId[patientId][vaccineCount].vaccineName;
         vaccineManufacturer = _patientId[patientId][vaccineCount]
             .vaccineManufacturer;
         vaccineBatchId = _patientId[patientId][vaccineCount].vaccineBatchId;
-        vaccineName = _patientId[patientId][vaccineCount].vaccineName;
         vaccineBottleNumber = _patientId[patientId][vaccineCount]
             .vaccineBottleNumber;
-        vaccinationDate = _patientId[patientId][vaccineCount].vaccinationDate;
+        vaccinatedDate = _patientId[patientId][vaccineCount].vaccinatedDate;
+        vaccinatorId = _patientId[patientId][vaccineCount].vaccinatorId;
     }
 }

@@ -113,6 +113,16 @@
       },
       {
         "internalType": "string",
+        "name": "vaccinatedFor",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccineName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "vaccineManufacturer",
         "type": "string"
       },
@@ -123,17 +133,17 @@
       },
       {
         "internalType": "string",
-        "name": "vaccineName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
         "name": "vaccineBottleNumber",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "vaccinationDate",
+        "name": "vaccinatedDate",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccinatorId",
         "type": "string"
       }
     ],
@@ -149,6 +159,11 @@
       },
       {
         "internalType": "string",
+        "name": "vaccinatedFor",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
         "name": "vaccineName",
         "type": "string"
       },
@@ -169,7 +184,12 @@
       },
       {
         "internalType": "string",
-        "name": "vaccinationDate",
+        "name": "vaccinatedDate",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "vaccinatorId",
         "type": "string"
       }
     ],
