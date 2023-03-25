@@ -1,11 +1,186 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <title>Server</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Express Static HTML Page</title>
+    <!-- Link to Tailwind CDN -->
+    <!-- <link rel="stylesheet" href="https://cdn.tailwindcss.com/v2.2.19/tailwind.min.css"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-
   <body>
-    <h1>Express</h1>
-    <p>Welcome this is a server</p>
+    <!-- Main container -->
+    <div class="container mx-auto px-4 flex flex-col min-h-screen">
+      <!-- Header -->
+      <div class="flex items-center justify-between py-4">
+        <!-- Logo -->
+        <div class="text-xl font-bold text-gray-800">Express</div>
+        <!-- Menu -->
+        <div class="flex space-x-4">
+          <!-- <a href="/" class="text-gray-600 hover:text-gray-800">Home</a> -->
+          <a href="/api/v1/docs" class="text-gray-600 hover:text-gray-800"
+            >API Docs</a
+          >
+          <a
+            href="mailto:justinjdaniel@github.com"
+            class="text-gray-600 hover:text-gray-800"
+            >Contact</a
+          >
+          <!-- GitHub and LinkedIn links -->
+          <a
+            href="https://github.com/justinjdaniel"
+            class="text-gray-600 hover:text-gray-800"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+              alt="GitHub"
+              width="24"
+              height="24"
+          /></a>
+          <a
+            href="https://www.linkedin.com/justinjdaniel"
+            class="text-gray-600 hover:text-gray-800"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+              alt="LinkedIn"
+              width="24"
+              height="24"
+          /></a>
+        </div>
+      </div>
+
+      <!-- Main section -->
+      <div class="py-8 flex-grow">
+        <!-- Heading -->
+        <h1 class="text-4xl font-semibold text-gray-800">
+          Welcome to Vacci Log Server
+        </h1>
+        <!-- Subheading -->
+        <p class="mt-4 text-lg text-gray-600">
+          This is a simple static html page generated using Tailwind CSS for
+          modern UI.
+        </p>
+        <!-- Button -->
+        <div class="mt-8">
+          <a
+            href="#"
+            class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >Visit my website</a
+          >
+
+          <h4 class="text-2xl font-bold text-gray-800 mt-8">
+            Server Information
+          </h4>
+
+          <table class="w-full mt-4 border-collapse">
+            <tr class="bg-gray-100">
+              <th class="px-4 py-2 border text-left text-gray-600">Property</th>
+              <th class="px-4 py-2 border text-left text-gray-600">Value</th>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Server Name:</td>
+              <td class="px-4 py-2 border text-gray-800">localhost</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Server Port:</td>
+              <td class="px-4 py-2 border text-gray-800">8080</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Server Protocol:</td>
+              <td class="px-4 py-2 border text-gray-800">HTTP/1.1</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Server Software:</td>
+              <td class="px-4 py-2 border text-gray-800">
+                Apache/2.4.46 (Win64) OpenSSL/1.1.1j PHP/7.4.15
+              </td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Document Root:</td>
+              <td class="px-4 py-2 border text-gray-800">C:/xampp/htdocs/</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Current Page:</td>
+              <td class="px-4 py-2 border text-gray-800">/index.html</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">User Agent:</td>
+              <td class="px-4 py-2 border text-gray-800">
+                Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+                (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36
+                Edg/88.0.705.63
+              </td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Remote Address:</td>
+              <td class="px-4 py-2 border text-gray-800">::1</td>
+            </tr>
+
+            <tr>
+              <td class="px-4 py-2 border text-gray-800">Remote Port:</td>
+              <td class="px-4 py-2 border text-gray-800">50127</td>
+            </tr>
+          </table>
+
+          <p class="mt-8 text-sm text-gray-600">
+            This page was generated by Apache/2.4.46 (Win64) OpenSSL/1.1.1j
+            PHP/7.4.15 on Windows NT 10.0; Win64; x64.
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="py-4 bg-gray-100">
+        <!-- Social links -->
+        <div
+          class="container mx-auto px-4 flex items-center justify-center space-x-4"
+        >
+          <a
+            href="https://www.facebook.com/justinjdaniel"
+            class="text-gray-600 hover:text-blue-600"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/145/145802.png"
+              alt="Facebook"
+              width="24"
+              height="24"
+          /></a>
+          <a
+            href="https://www.twitter.com/"
+            class="text-gray-600 hover:text-blue-400"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/145/145812.png"
+              alt="Twitter"
+              width="24"
+              height="24"
+          /></a>
+          <a
+            href="https://www.instagram.com/"
+            class="text-gray-600 hover:text-pink-600"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+              alt="Instagram"
+              width="24"
+              height="24"
+          /></a>
+          <a
+            href="https://www.youtube.com/justinjdaniel"
+            class="text-gray-600 hover:text-red-600"
+            ><img
+              src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+              alt="YouTube"
+              width="24"
+              height="24"
+          /></a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
