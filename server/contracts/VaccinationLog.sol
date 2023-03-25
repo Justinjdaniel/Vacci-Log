@@ -22,10 +22,15 @@ contract VaccinationLog {
     }
 
     struct Vaccine {
-        uint256 patientUID; // patient unique id
-        string vaccinatedFor; // Type of disease vaccinated for
+        uint256 id; // vaccine unique id
+        string vaccineFor; // Type of disease vaccinated for
         string vaccineName; // vaccine name
         string vaccineManufacturer; // vaccine manufacturer
+    }
+
+    struct VaccineDose {
+        uint256 patientUID; // patient unique id
+        uint256 vaccineId; // vaccine unique id
         string vaccineBatchId; // vaccine batch id
         string vaccineBottleNumber; // serial number of vaccine bottle
         string vaccinatedDate; // vaccination date
@@ -35,8 +40,12 @@ contract VaccinationLog {
     // Linking Patient UID to the patient details
     mapping(uint256 => Patient) public PatientUID;
 
-    // Mapping to patient UID to vaccine data
-    mapping(uint256 => mapping(uint256 => Vaccine)) private _patientId;
+    // Linking Vaccine UID to the vaccine details
+    mapping(uint256 => Vaccine) public VaccineUID;
+
+    // Mapping to patient UID to vaccination data
+    mapping(uint256 => mapping(uint256 => VaccineDose))
+        public PatientDoseDetails;
 
     // Iterable variable declaration for vaccine data count
     mapping(uint256 => uint256) private _vaccineCount;
@@ -56,94 +65,79 @@ contract VaccinationLog {
         Sex gender,
         string memory location
     ) public {
+        require(
+            id > 0 &&
+                bytes(name).length > 0 &&
+                age > 0 &&
+                bytes(location).length > 0,
+            'All fields are mandatory'
+        );
         PatientUID[id] = Patient(id, name, age, gender, location);
+    }
+
+    /**
+     * @dev Create a new vaccine with unique id
+     * @param id unique id of patient
+     * @param vaccineFor Type of disease vaccinated for
+     * @param vaccineName Name of the vaccine used for vaccination
+     * @param vaccineManufacturer Name of the manufacturer who produced the vaccine
+     */
+    function createVaccine(
+        uint256 id,
+        string memory vaccineFor,
+        string memory vaccineName,
+        string memory vaccineManufacturer
+    ) public {
+        require(
+            id > 0 &&
+                bytes(vaccineFor).length > 0 &&
+                bytes(vaccineName).length > 0 &&
+                bytes(vaccineManufacturer).length > 0,
+            'All fields are mandatory'
+        );
+        VaccineUID[id] = Vaccine(
+            id,
+            vaccineFor,
+            vaccineName,
+            vaccineManufacturer
+        );
     }
 
     /**
      * @dev Create vaccination details of patient
      * @param patientUID unique id of patient
-     * @param vaccinatedFor Type of disease vaccinated for
-     * @param vaccineName vaccine name
-     * @param vaccineManufacturer  vaccine manufacturer
-     * @param vaccineBatchId vaccine batch id
-     * @param vaccineBottleNumber vaccine bottle number
-     * @param vaccinatedDate vaccination date
-     * @param vaccinatorId vaccinator id
+     * @param vaccineId Vaccine id
+     * @param vaccineBatchId Batch ID of the vaccine used for vaccination
+     * @param vaccineBottleNumber Serial number of the bottle used for vaccination
+     * @param vaccinatedDate Date when the vaccination was done
+     * @param vaccinatorId ID of the person who administered the vaccination
      */
-    function setVaccineData(
+    function createVaccineDose(
         uint256 patientUID,
-        string memory vaccinatedFor,
-        string memory vaccineName,
-        string memory vaccineManufacturer,
+        uint256 vaccineId,
         string memory vaccineBatchId,
         string memory vaccineBottleNumber,
         string memory vaccinatedDate,
         string memory vaccinatorId
     ) public {
-        _vaccineCount[patientUID] += 1;
-        _patientId[patientUID][_vaccineCount[patientUID]] = Vaccine(
+        require(
+            patientUID > 0 &&
+                vaccineId > 0 &&
+                bytes(vaccineBatchId).length > 0 &&
+                bytes(vaccineBottleNumber).length > 0 &&
+                bytes(vaccinatedDate).length > 0 &&
+                bytes(vaccinatorId).length > 0,
+            'All fields are mandatory'
+        );
+
+        _vaccineCount[patientUID]++;
+        PatientDoseDetails[patientUID][_vaccineCount[patientUID]] = VaccineDose(
             patientUID,
-            vaccinatedFor,
-            vaccineName,
-            vaccineManufacturer,
+            vaccineId,
             vaccineBatchId,
             vaccineBottleNumber,
             vaccinatedDate,
             vaccinatorId
         );
-    }
-
-    /**
-     * @dev Get vaccination details of patient
-     * @param patientId unique id of patient
-     * @param vaccineCount vaccination count
-     * @return patientUID unique id of patient
-     * @return patientName patient name,
-     * @return patientAge patient age,
-     * @return patientGender patient gender,
-     * @return patientLocation patient location,
-     * @return vaccinatedFor vaccine for which type of diease
-     * @return vaccineName vaccine name
-     * @return vaccineManufacturer  vaccine manufacturer
-     * @return vaccineBatchId vaccine batch id
-     * @return vaccineBottleNumber vaccine bottle number
-     * @return vaccinatedDate vaccination date
-     * @return vaccinatorId vaccination date
-     */
-    function getVaccineDetails(
-        uint256 patientId,
-        uint256 vaccineCount
-    )
-        public
-        view
-        returns (
-            uint256 patientUID,
-            string memory patientName,
-            uint256 patientAge,
-            Sex patientGender,
-            string memory patientLocation,
-            string memory vaccinatedFor,
-            string memory vaccineName,
-            string memory vaccineManufacturer,
-            string memory vaccineBatchId,
-            string memory vaccineBottleNumber,
-            string memory vaccinatedDate,
-            string memory vaccinatorId
-        )
-    {
-        patientUID = _patientId[patientId][vaccineCount].patientUID;
-        patientName = PatientUID[patientId].name;
-        patientAge = PatientUID[patientId].age;
-        patientGender = PatientUID[patientId].gender;
-        patientLocation = PatientUID[patientId].location;
-        vaccinatedFor = _patientId[patientId][vaccineCount].vaccinatedFor;
-        vaccineName = _patientId[patientId][vaccineCount].vaccineName;
-        vaccineManufacturer = _patientId[patientId][vaccineCount]
-            .vaccineManufacturer;
-        vaccineBatchId = _patientId[patientId][vaccineCount].vaccineBatchId;
-        vaccineBottleNumber = _patientId[patientId][vaccineCount]
-            .vaccineBottleNumber;
-        vaccinatedDate = _patientId[patientId][vaccineCount].vaccinatedDate;
-        vaccinatorId = _patientId[patientId][vaccineCount].vaccinatorId;
     }
 }
