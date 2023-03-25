@@ -8,7 +8,7 @@ const { isEmail, isNumeric } = validator;
 
 const userSchema = Schema(
   {
-    patientUID: {
+    uid: {
       type: Number,
       required: true,
       unique: true,
@@ -52,8 +52,8 @@ const userSchema = Schema(
     },
     role: {
       type: String,
-      enum: ['user, admin'],
-      default: 'user',
+      enum: ['vaccinator, admin'],
+      default: 'vaccinator',
     },
   },
   {

@@ -1,0 +1,55 @@
+components:
+  schemas:
+    Vaccine:
+      type: object
+      example:
+        vaccinatedFor: disease
+        vaccineName: Vaccine Name
+        vaccineManufacturer: Pfizer
+        vaccineBatchId: A/154/05
+        vaccineBottleNumber: 1A543
+        vaccinatedDate: 2022-02-20T02:02:02.157Z
+        vaccinatorId: ID-10241
+        transactionHash: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
+      properties:
+        vaccinatedFor:
+          type: string
+          description: Type of disease vaccinated for
+          example: disease
+        vaccineName:
+          type: string
+          description: Name of the vaccine
+          example: 'Vaccine Name'
+        vaccineManufacturer:
+          type: string
+          description: Name of the manufacturer of the vaccine
+          example: 'Pfizer'
+        vaccineBatchId:
+          type: string
+          description: Batch ID of the vaccine
+          example: 'A/154/05'
+        vaccineBottleNumber:
+          type: string
+          description: Bottle number of the vaccine
+          example: '1A543'
+        vaccinatedDate:
+          type: string
+          description: Date when vaccinated
+          example: '2022-02-20'
+        vaccinatorId:
+          type: string
+          description: ID of the vaccinator
+          example: 'ID-10241'
+        transactionHash:
+          type: string
+          description: Transaction hash of record added to blockchain
+          example: '0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4'
+      required:
+        - vaccinatedFor
+        - vaccineName
+        - vaccineManufacturer
+        - vaccineBatchId
+        - vaccineBottleNumber
+        - vaccinatedDate
+        - vaccinatorId
+        - transactionHash

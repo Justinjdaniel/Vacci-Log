@@ -38,3 +38,9 @@ export const mongoose = {
 export const jwt = {
   secret: envVars.JWT_SECRET,
 };
+export const alchemyKey = envVars.ALCHEMY_API_KEY;
+export const contractAddress = envVars.CONTRACT_ADDRESS;
+export const wallet = {
+  address: envVars.ACCOUNT_ADDRESS,
+  key: envVars.PRIVATE_KEY,
+};

@@ -1,0 +1,30 @@
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        patientId:
+          type: number
+          description: Unique identifier for the patient
+          example: 5ebac534954b54139806c112
+        email:
+          type: string
+          format: email
+          description: Email address of the patient
+          example: fake@example.com
+        name:
+          type: string
+          description: Name of the patient
+          example: john doe
+        vaccinated:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vaccine'
+      example:
+        patientId: 5ebac534954b54139806c112
+        email: fake@example.com
+        name: john doe
+      required:
+        - patientId
+        - email
+        - name
