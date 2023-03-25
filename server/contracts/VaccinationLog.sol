@@ -3,7 +3,7 @@
 pragma solidity >=0.8.2 <0.9.0;
 
 /**
- * @title Vaccine
+ * @title VaccinationLog
  * @dev Store & retrieve value in a vaccine and patients details
  */
 contract VaccinationLog {
