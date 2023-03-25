@@ -1,19 +1,24 @@
 import { config } from 'dotenv';
-import { number, object, string } from 'joi';
+import joi from 'joi';
 import { join } from 'path';
+import __dirname from '../../dirname.js';
 
 config({ path: join(__dirname, '../../.env') });
 
-const envVarsSchema = object()
+const envVarsSchema = joi
+  .object()
   .keys({
-    NODE_ENV: string().valid('production', 'development', 'test').required(),
-    PORT: number().default(3000),
-    MONGODB_URL: string().required().description('Mongo DB url'),
-    JWT_SECRET: string().required().description('JWT secret key'),
-    ALCHEMY_API_KEY: string().description('alchemy api key'),
-    CONTRACT_ADDRESS: string().description('deployed contract address'),
-    ACCOUNT_ADDRESS: string().description('wallet account address'),
-    PRIVATE_KEY: string().description('wallet account private key'),
+    NODE_ENV: joi
+      .string()
+      .valid('production', 'development', 'test')
+      .required(),
+    PORT: joi.number().default(3000),
+    MONGODB_URL: joi.string().required().description('Mongo DB url'),
+    JWT_SECRET: joi.string().required().description('JWT secret key'),
+    ALCHEMY_API_KEY: joi.string().description('alchemy api key'),
+    CONTRACT_ADDRESS: joi.string().description('deployed contract address'),
+    ACCOUNT_ADDRESS: joi.string().description('wallet account address'),
+    PRIVATE_KEY: joi.string().description('wallet account private key'),
   })
   .unknown();
 
@@ -33,6 +38,7 @@ export const mongoose = {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   },
 };
 export const jwt = {

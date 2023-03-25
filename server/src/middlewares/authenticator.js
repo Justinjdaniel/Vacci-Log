@@ -3,7 +3,14 @@ import { verify } from 'jsonwebtoken';
 import { userService } from '../services';
 import ApiError from '../utils/ApiError.js';
 
-const user = async (req, res, next) => {
+/**
+ * Middleware to authenticate user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @throws {ApiError} - If authentication fails
+ */
+const authenticateUser = async (req, res, next) => {
   if (req.headers.authorization?.startsWith('Bearer')) {
     try {
       // Get token from header
@@ -28,4 +35,4 @@ const user = async (req, res, next) => {
   }
 };
 
-export default { user };
+export default { authenticateUser };

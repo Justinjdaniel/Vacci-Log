@@ -37,7 +37,27 @@ const patientSchema = Schema(
       required: true,
       trim: true,
     },
+    age: {
+      type: Number,
+      required: true,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+      enum: ['male', 'female', 'other'],
+      default: 'male',
+    },
+    location: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     vaccinated: [Vaccine],
+    transactionHash: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -16,15 +16,40 @@ components:
           type: string
           description: Name of the patient
           example: john doe
+        age:
+          type: number
+          description: Age of patient
+          example: 25
+        gender:
+          type: string
+          enum: ['male', 'female', 'other']
+          description: Gender of the patient
+          example: male
+        location:
+          type: string
+          description: location of patient
+          example: Kerala, India
         vaccinated:
           type: array
           items:
             $ref: '#/components/schemas/Vaccine'
+        transactionHash:
+          type: string
+          description: transaction hash of transaction done while adding patient to blockchain
+          example: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
       example:
         patientId: 5ebac534954b54139806c112
         email: fake@example.com
         name: john doe
+        age: 25
+        gender: male
+        location: Kerala, India
+        transactionHash: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
       required:
         - patientId
         - email
         - name
+        - age
+        - gender
+        - location
+        - transactionHash
