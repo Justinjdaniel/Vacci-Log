@@ -21,7 +21,7 @@ contract Vaccination {
         uint256 id;
         string vaccineFor;
         string manufacturer;
-        uint256 batchId;
+        string batchId;
         string expireDate;
     }
 
@@ -63,7 +63,6 @@ contract Vaccination {
         string memory _location,
         Gender _gender
     ) private {
-        patientsCount++;
         patients[_id] = Patient(_id, _name, _age, _location, _gender);
         emit PatientAdded(_id);
     }
@@ -72,10 +71,9 @@ contract Vaccination {
         uint256 _id,
         string memory _vaccineFor,
         string memory _manufacturer,
-        uint256 _batchId,
+        string memory _batchId,
         string memory _expireDate
     ) private {
-        vaccinesCount++;
         vaccines[_id] = Vaccine(
             _id,
             _vaccineFor,
@@ -102,69 +100,29 @@ contract Vaccination {
         uint256 _vaccineId,
         uint256 _vaccinatorId
     ) private {
-        require(vaccines[_vaccineId].id != 0, 'Invalid vaccine id');
-        require(vaccinators[_vaccinatorId].id != 0, 'Invalid vaccinator id');
+        require(vaccines[_vaccineId].id != 0, "Invalid vaccine id");
+        require(vaccinators[_vaccinatorId].id != 0, "Invalid vaccinator id");
 
         for (uint256 i = 0; i < patientVaccinations[_patientId].length; i++) {
             require(
                 patientVaccinations[_patientId][i].vaccineId != _vaccineId ||
                     patientVaccinations[_patientId][i].vaccinatorId !=
                     _vaccinatorId,
-                'Vaccine already added for patient'
+                "Vaccine already added for patient"
             );
         }
 
-        vaccinationDoseCount++;
         patientVaccinations[_patientId].push(
             VaccinationDose(_date, _vaccineId, _vaccinatorId)
         );
         emit VaccinationDoseAdded(_patientId, _vaccineId, _vaccinatorId);
     }
 
-    function getPatient(
-        uint256 _id
-    )
+    function getPatientVaccinations(uint256 _patientId)
         public
         view
-        returns (string memory, uint256, uint256, string memory, Gender)
+        returns (VaccinationDose[] memory)
     {
-        Patient storage patient = patients[_id];
-        return (
-            patient.name,
-            patient.age,
-            patient.id,
-            patient.location,
-            patient.gender
-        );
-    }
-
-    function getVaccine(
-        uint256 _id
-    )
-        public
-        view
-        returns (uint256, string memory, string memory, uint256, string memory)
-    {
-        Vaccine storage vaccine = vaccines[_id];
-        return (
-            vaccine.id,
-            vaccine.vaccineFor,
-            vaccine.manufacturer,
-            vaccine.batchId,
-            vaccine.expireDate
-        );
-    }
-
-    function getVaccinator(
-        uint256 _id
-    ) public view returns (uint256, uint256, string memory) {
-        Vaccinator storage vaccinator = vaccinators[_id];
-        return (vaccinator.id, vaccinator.licenseNumber, vaccinator.name);
-    }
-
-    function getPatientVaccinations(
-        uint256 _patientId
-    ) public view returns (VaccinationDose[] memory) {
         return patientVaccinations[_patientId];
     }
 
@@ -212,14 +170,12 @@ contract Vaccination {
     }
 
     function validatePatientData(
-        uint256 _id,
         string memory _name,
         uint256 _age,
         string memory _location,
         Gender _gender
     ) private pure returns (bool) {
         if (
-            _id == 0 ||
             bytes(_name).length == 0 ||
             _age == 0 ||
             bytes(_location).length == 0 ||
@@ -231,17 +187,15 @@ contract Vaccination {
     }
 
     function validateVaccineData(
-        uint256 _id,
         string memory _vaccineFor,
         string memory _manufacturer,
-        uint256 _batchId,
+        string memory _batchId,
         string memory _expireDate
-    ) public pure returns (bool) {
+    ) private pure returns (bool) {
         if (
-            _id == 0 ||
             bytes(_vaccineFor).length == 0 ||
             bytes(_manufacturer).length == 0 ||
-            _batchId == 0 ||
+            bytes(_batchId).length == 0 ||
             bytes(_expireDate).length == 0
         ) {
             return false;
@@ -249,12 +203,12 @@ contract Vaccination {
         return true;
     }
 
-    function validateVaccinatorData(
-        uint256 _id,
-        uint256 _licenseNumber,
-        string memory _name
-    ) public pure returns (bool) {
-        if (_id == 0 || _licenseNumber == 0 || bytes(_name).length == 0) {
+    function validateVaccinatorData(uint256 _licenseNumber, string memory _name)
+        private
+        pure
+        returns (bool)
+    {
+        if (_licenseNumber == 0 || bytes(_name).length == 0) {
             return false;
         }
         return true;
@@ -265,12 +219,12 @@ contract Vaccination {
         string memory _date,
         uint256 _vaccineId,
         uint256 _vaccinatorId
-    ) public view returns (bool) {
+    ) private view returns (bool) {
         if (
             patients[_patientId].id == 0 ||
+            bytes(_date).length == 0 ||
             vaccines[_vaccineId].id == 0 ||
-            vaccinators[_vaccinatorId].id == 0 ||
-            bytes(_date).length == 0
+            vaccinators[_vaccinatorId].id == 0
         ) {
             return false;
         }
@@ -278,49 +232,57 @@ contract Vaccination {
     }
 
     function addPatientWithValidation(
-        uint256 _id,
         string memory _name,
         uint256 _age,
         string memory _location,
         Gender _gender
-    ) public {
+    ) public returns (uint256) {
+        patientsCount++;
         require(
-            validatePatientData(_id, _name, _age, _location, _gender),
-            'Invalid patient data'
+            validatePatientData(_name, _age, _location, _gender),
+            "Invalid patient data"
         );
-        addPatient(_id, _name, _age, _location, _gender);
+        addPatient(patientsCount, _name, _age, _location, _gender);
+        return patientsCount;
     }
 
     function addVaccineWithValidation(
-        uint256 _id,
         string memory _vaccineFor,
         string memory _manufacturer,
-        uint256 _batchId,
+        string memory _batchId,
         string memory _expireDate
-    ) public {
+    ) public returns (uint256) {
+        vaccinesCount++;
         require(
             validateVaccineData(
-                _id,
                 _vaccineFor,
                 _manufacturer,
                 _batchId,
                 _expireDate
             ),
-            'Invalid vaccine data'
+            "Invalid vaccine data"
         );
-        addVaccine(_id, _vaccineFor, _manufacturer, _batchId, _expireDate);
+        addVaccine(
+            vaccinesCount,
+            _vaccineFor,
+            _manufacturer,
+            _batchId,
+            _expireDate
+        );
+        return vaccinesCount;
     }
 
     function addVaccinatorWithValidation(
-        uint256 _id,
         uint256 _licenseNumber,
         string memory _name
-    ) public {
+    ) public returns (uint256) {
+        vaccinatorsCount++;
         require(
-            validateVaccinatorData(_id, _licenseNumber, _name),
-            'Invalid vaccinator data'
+            validateVaccinatorData(_licenseNumber, _name),
+            "Invalid vaccinator data"
         );
-        addVaccinator(_id, _licenseNumber, _name);
+        addVaccinator(vaccinatorsCount, _licenseNumber, _name);
+        return vaccinatorsCount;
     }
 
     function addVaccinationDoseWithValidation(
@@ -328,7 +290,8 @@ contract Vaccination {
         string memory _date,
         uint256 _vaccineId,
         uint256 _vaccinatorId
-    ) public {
+    ) public returns (uint256) {
+        vaccinationDoseCount++;
         require(
             validateVaccinationDoseData(
                 _patientId,
@@ -336,9 +299,10 @@ contract Vaccination {
                 _vaccineId,
                 _vaccinatorId
             ),
-            'Invalid vaccination dose data'
+            "Invalid vaccination dose data"
         );
         addVaccinationDose(_patientId, _date, _vaccineId, _vaccinatorId);
+        return patientVaccinations[_patientId].length;
     }
 }
 
