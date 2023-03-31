@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "start": "node ./bin/server",
-    "dev": "DEBUG=vacci-log:* nodemon start"
+    "dev": "DEBUG=vacci-log:* nodemon start",
+    "test": "NODE_ENV=test nodemon start",
+    "compile": "truffle --config truffle-config.cjs compile",
+    "deploy": "npx truffle migrate --reset --network development"
   },
   "keywords": [
     "Blockchain, EVM, EthersJs, Vaccine, Dapp"
@@ -30,13 +33,16 @@
     "joi": "^17.8.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0",
-    "validator": "^13.9.0",
     "morgan": "~1.9.1",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^4.6.2"
+    "swagger-ui-express": "^4.6.2",
+    "validator": "^13.9.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20",
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
+    "@nomiclabs/hardhat-ethers": "^2.2.2",
+    "@truffle/hdwallet-provider": "^2.1.9",
+    "chai": "^4.3.7",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^8.1.0",
@@ -44,7 +50,10 @@
     "eslint-plugin-jest": "^24.0.1",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-security": "^1.4.0",
+    "hardhat": "^2.13.0",
     "jest": "^29.4.3",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
     "supertest": "^6.3.3"
   },
