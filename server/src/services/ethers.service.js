@@ -4,14 +4,16 @@ import artifacts from '../../contracts/VaccinationLog.json' assert { type: 'json
 import __dirname from '../../dirname.js';
 import { alchemyKey, contractAddress, wallet } from '../config/config.js';
 
-// Define the network to use
-const network = 'MATIC_MAINNET';
+const NETWORK = 'MATIC_MAINNET';
+const PROVIDER_URL = `https://polygon-mumbai.g.alchemy.com/v2/${alchemyKey}`;
+const EXPLORER_URL = 'https://mumbai.polygonscan.com/tx/';
+const DEPLOY_FILE = __dirname + '/deploy.json';
 
-// Define an Alchemy Provider
-const alchemyProvider = new providers.AlchemyProvider(network, alchemyKey);
+// Create a provider
+const provider = new providers.AlchemyProvider(NETWORK, PROVIDER_URL);
 
 // Create a signer
-const signer = new Wallet(wallet.key, alchemyProvider);
+const signer = new Wallet(wallet.key, provider);
 
 // Define a network explorer link
 export const networkExplorerLink = 'https://mumbai.polygonscan.com/tx/';
@@ -23,21 +25,42 @@ export const contractFactory = new ContractFactory(
   signer
 );
 
-export const contractDeployer = async () => {
-  const contract = await contractFactory.deploy();
-
-  console.log(`Contract deployed at address: ${contract.address}`);
-
-  const data = {
-    contractAddress: contract.address,
-    deployerAddress: signer.getAddress(),
-  };
-
-  fs.writeFileSync(__dirname + '/deploy.json', JSON.stringify(data));
-  return contract;
+/**
+ * Deploy a contract and save its address and deployer address to a file
+ * @returns {Promise<Contract>} A promise that resolves to the deployed contract instance
+ * @throws {Error} If the deployment fails
+ */
+export const deployContract = async () => {
+  try {
+    const contract = await contractFactory.deploy();
+    console.log(`Contract deployed at address: ${contract.address}`);
+    const data = {
+      contractAddress: contract.address,
+      deployerAddress: await signer.getAddress(),
+    };
+    fs.writeFileSync(DEPLOY_FILE, JSON.stringify(data));
+    return contract;
+  } catch (error) {
+    console.error(`Failed to deploy contract: ${error.message}`);
+    throw error;
+  }
 };
 
-// Create a contract instance
-const contractInstance = new Contract(contractAddress, artifacts.abi, signer);
+/**
+ * Create a contract instance from an existing address
+ * @returns {Contract} The contract instance
+ * @throws {Error} If the creation fails
+ */
+const contractInstance = () => {
+  try {
+    return new Contract(contractAddress, artifacts.abi, signer);
+  } catch (error) {
+    console.error(`Failed to create contract instance: ${error.message}`);
+    throw error;
+  }
+};
 
 export default contractInstance;
+
+// Export the explorer URL for convenience
+export const explorerUrl = EXPLORER_URL;
