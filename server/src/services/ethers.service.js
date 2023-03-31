@@ -5,7 +5,7 @@ import __dirname from '../../dirname.js';
 import { alchemyKey, contractAddress, wallet } from '../config/config.js';
 
 // Define the network to use
-const network = 'goerli';
+const network = 'MATIC_MAINNET';
 
 // Define an Alchemy Provider
 const alchemyProvider = new providers.AlchemyProvider(network, alchemyKey);
@@ -14,7 +14,7 @@ const alchemyProvider = new providers.AlchemyProvider(network, alchemyKey);
 const signer = new Wallet(wallet.key, alchemyProvider);
 
 // Define a network explorer link
-export const networkExplorerLink = 'https://goerli.etherscan.io/tx/';
+export const networkExplorerLink = 'https://mumbai.polygonscan.com/tx/';
 
 // Create a contract factory
 export const contractFactory = new ContractFactory(
