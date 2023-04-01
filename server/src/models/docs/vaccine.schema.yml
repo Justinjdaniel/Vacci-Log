@@ -3,14 +3,19 @@ components:
     Vaccine:
       type: object
       example:
-        vaccinatedFor: disease
+        id: 123
+        vaccineFor: disease
         vaccineName: Vaccine Name
         vaccineManufacturer: Pfizer
         vaccineBatchId: A/154/05
         expireDate: 2022-02-20T02:02:02.157Z
         transactionHash: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
       properties:
-        vaccinatedFor:
+        id:
+          type: integer
+          description: ID of the vaccinator
+          example: 123
+        vaccineFor:
           type: string
           description: Type of disease vaccinated for
           example: disease
@@ -35,7 +40,8 @@ components:
           description: Transaction hash of record added to blockchain
           example: '0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4'
       required:
-        - vaccinatedFor
+        - id
+        - vaccineFor
         - vaccineName
         - vaccineManufacturer
         - vaccineBatchId

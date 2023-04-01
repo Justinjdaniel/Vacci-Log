@@ -3,10 +3,10 @@ components:
     Patient:
       type: object
       properties:
-        patientId:
-          type: number
+        id:
+          type: integer
           description: Unique identifier for the patient
-          example: 5ebac534954b54139806c112
+          example: 123
         email:
           type: string
           format: email
@@ -17,7 +17,7 @@ components:
           description: Name of the patient
           example: john doe
         age:
-          type: number
+          type: integer
           description: Age of patient
           example: 25
         gender:
@@ -38,7 +38,7 @@ components:
           description: transaction hash of transaction done while adding patient to blockchain
           example: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
       example:
-        patientId: 5ebac534954b54139806c112
+        id: 112
         email: fake@example.com
         name: john doe
         age: 25
@@ -46,7 +46,7 @@ components:
         location: Kerala, India
         transactionHash: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
       required:
-        - patientId
+        - id
         - email
         - name
         - age
