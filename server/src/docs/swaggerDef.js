@@ -1,4 +1,3 @@
-// import packageJson from '../../package.json' assert { type: 'json' };
 const { PORT, npm_package_version: version } = process.env;
 
 const swaggerDef = {
@@ -6,7 +5,7 @@ const swaggerDef = {
   info: {
     title: 'VacciLog Server',
     description:
-      'All the APIs related to the vacci-log server are available here.\n\nSome useful links:\n- [The Github Repository](https://github.com/Justinjdaniel/Vacci-Log)',
+      'Server is for name is vaccinations log, which is used to create get and add patient, vaccinator, vaccine, and patient vaccine dose. Uses blockchain to store data.\n\nSome useful links:\n- [The Github Repository](https://github.com/Justinjdaniel/Vacci-Log)',
     version,
     license: {
       name: 'MIT',
@@ -15,10 +14,13 @@ const swaggerDef = {
     contact: {
       email: 'justinjdaniel@email.com',
     },
+    termsOfService:
+      'https://github.com/Justinjdaniel/Vacci-Log/blob/master/TERMS.md',
   },
   servers: [
     {
       url: `http://localhost:${PORT}/api/v1`,
+      description: 'Local server',
     },
   ],
 };

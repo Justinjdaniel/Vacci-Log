@@ -107,3 +107,6 @@ paths:
                 type: string
         '400':
           description: Invalid username/password supplied
+      security:
+        - bearerAuth:
+            - write
