@@ -11,10 +11,7 @@ module.exports = {
       //   'https://eth-ganache.alchemyapi.io/v2/' + process.env.ALCHEMY_API_KEY,
       url: 'http://127.0.0.1:8545',
       chainId: 1337,
-      accounts: [
-        '0x0141d7f5c37eaea0df770b9ebd3da42c032243f94f4feb783c56638580e5cb55',
-        '0xe7ca76989ee13dbe8bfc581eaebf38c4969099a0b6ddbf5068e6ddadda55fd6e',
-      ],
+      accounts: [process.env.GANACHE_PRIVATE_KEY],
     },
     polygon_mumbai: {
       url:

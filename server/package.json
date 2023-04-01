@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "node ./bin/server",
-    "dev": "DEBUG=vacci-log:* nodemon start",
-    "test": "NODE_ENV=test nodemon start",
-    "compile": "truffle --config truffle-config.cjs compile",
-    "deploy": "npx truffle migrate --reset --network development"
+    "dev": "DEBUG=server:* nodemon start",
+    "test": "npx truffle test",
+    "test:hardhat": "npx hardhat test ./test/*.hardhat.test.js",
+    "compile": "npx truffle --config truffle-config.js compile",
+    "deploy": "npx truffle migrate --reset --network development",
+    "deploy:mumbai": "npx truffle migrate --reset --network development"
   },
   "keywords": [
     "Blockchain, EVM, EthersJs, Vaccine, Dapp"
@@ -50,12 +52,14 @@
     "eslint-plugin-jest": "^24.0.1",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-security": "^1.4.0",
+    "esm": "3.2.25",
     "hardhat": "^2.13.0",
     "jest": "^29.4.3",
     "mocha": "^10.2.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.4",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "truffle": "5.8.1"
   },
   "imports": {
     "#root/*": "./*",
