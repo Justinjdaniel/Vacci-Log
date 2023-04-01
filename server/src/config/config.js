@@ -37,17 +37,11 @@ if (error) {
 
 export const env = envVars.NODE_ENV;
 export const port = envVars.PORT;
-export const mongoose = {
+export const mongooseConfig = {
   url: `${envVars.MONGODB_URL.replace(
     '<username>',
     envVars.MONGODB_USERNAME
   ).replace('<password>', envVars.MONGODB_PASSWORD)}${envVars.NODE_ENV ?? ''}`,
-  options: {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  },
 };
 export const jwt = {
   secret: envVars.JWT_SECRET,

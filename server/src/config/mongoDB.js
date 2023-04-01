@@ -1,5 +1,6 @@
-import { connect, connection, set } from 'mongoose';
-import { mongoose } from './config';
+import mongoose from 'mongoose';
+import { mongooseConfig } from './config.js';
+const { connect, connection, set } = mongoose;
 
 set('strictQuery', false);
 
@@ -8,9 +9,9 @@ set('strictQuery', false);
  * @param {string} url - MongoDB connection URL.
  * @returns {Promise<mongoose.Connection>} - Mongoose connection object.
  */
-const connectDB = async (url = mongoose.url) => {
+const connectDB = async () => {
   try {
-    await connect(url, mongoose.options);
+    await connect(mongooseConfig.url);
     console.log(
       `\x1b[4m\u001b[46;1m MongoDB Connected:\u001b[44;1m ${connection.name} DB \u001b[0m`
     );

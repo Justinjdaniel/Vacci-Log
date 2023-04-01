@@ -8,6 +8,7 @@ import debugLib from 'debug';
 import http from 'http';
 
 import app from '../app.js';
+import connectDB from '../src/config/mongoDB.js';
 
 const debug = debugLib('vacci-log:server');
 
@@ -31,6 +32,12 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Connect MongoDB to server.
+ */
+
+connectDB();
 
 /**
  * Normalize a port into a number, string, or false.
