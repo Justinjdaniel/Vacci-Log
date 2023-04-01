@@ -9,9 +9,15 @@
     "dev": "DEBUG=server:* nodemon start",
     "test": "npx truffle test",
     "test:hardhat": "npx hardhat test ./test/*.hardhat.test.js",
-    "compile": "npx truffle --config truffle-config.js compile",
+    "compile": "npx truffle compile",
+    "compile:hardhat": "npx hardhat compile",
     "deploy": "npx truffle migrate --reset --network development",
-    "deploy:mumbai": "npx truffle migrate --reset --network development"
+    "deploy:mumbai": "npx truffle migrate --reset --network mumbai",
+    "deploy-hardhat": "npx hardhat run scripts/deploy.js --network localhost",
+    "deploy-hardhat:mumbai": "npx hardhat run scripts/deploy.js --network polygon-mumbai"
+  },
+  "compile-scripts": {
+    "compile-all": "npm run compile && npm run compile:hardhat"
   },
   "keywords": [
     "Blockchain, EVM, EthersJs, Vaccine, Dapp"
