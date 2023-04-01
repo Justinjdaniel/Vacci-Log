@@ -49,7 +49,7 @@ export const deployContract = async () => {
  * Creates a new contract instance
  * @param {string} contractAddress - The address of the contract
  * @param {Array} abi - The ABI of the contract
- * @param {Signer} signer - The signer object
+ * @param {signer} signer - The signer object
  * @returns {Contract} - The contract instance
  */
 const contractInstance = new Contract(contractAddress, artifacts.abi, signer);
@@ -58,35 +58,3 @@ export default contractInstance;
 
 // Export the explorer URL for convenience
 export const explorerUrl = EXPLORER_URL;
-
-const addPatient = async () => {
-  // Define a filter for the PatientAdded event
-  // const filter = contractInstance.filters.PatientAdded();
-
-  // // Subscribe to the event using the filter
-  // contractInstance.on(filter, (patientCount) => {
-  //   // Do something with the patientCount
-  //   console.log(patientCount);
-  // });
-
-  getEventValue(contractInstance, 'PatientAdded');
-
-  console.log('function called');
-  // Call the addPatientWithValidation function
-  const patientTxn = await contractInstance.addPatientWithValidation(
-    'John Doe',
-    20,
-    '123 Main St',
-    0
-  );
-  const result = await patientTxn.wait();
-};
-
-async function getEventValue(contractInstance, eventName) {
-  const filter = contractInstance.filters[eventName]();
-
-  const events = await contractInstance.queryFilter(filter);
-  console.log(events);
-}
-
-addPatient();
