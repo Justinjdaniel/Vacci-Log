@@ -1,4 +1,6 @@
 import { Patient } from '../models/index.js';
+import { contractInstance } from '../services/index.js';
+import getEventValue from '../utils/getEventValue.js';
 
 /**
  * Register a new patient in the blockchain and the database
@@ -10,10 +12,10 @@ import { Patient } from '../models/index.js';
 export const registerPatient = async (req, res) => {
   try {
     // Destructure the patient details from the request body
-    const { name, email, patientId, age, gender, location } = req.body;
+    const { email, name, age, location, gender } = req.body;
 
     // Validate that all fields are present
-    if (!name || !email || !patientId || !age || !gender || !location) {
+    if (!email || !name || !age || !location || !gender) {
       return res.status(400).json({
         status: 'warning',
         message: 'Please add all fields',
@@ -25,29 +27,30 @@ export const registerPatient = async (req, res) => {
     if (existingPatient) {
       return res.status(400).json({
         status: 'error',
-        message: 'User already exists',
+        message: 'Patient already exists',
       });
     }
 
-    // Call the createPatient function from the contract instance to register the patient in the blockchain
-    const patientTxn = await contractInstance.createPatient(
-      patientId,
+    // Call the addPatientWithValidation function from the contract instance to register the patient in the blockchain
+    const patientTxn = await contractInstance.addPatientWithValidation(
       name,
       age,
-      gender,
-      location
+      location,
+      gender
     );
     // Wait for the transaction to be confirmed and get the transaction hash
     const { transactionHash } = await patientTxn.wait();
 
+    const patientId = await getEventValue(contractInstance, 'PatientAdded');
+
     // Create a new patient document in the database with the patient details and the transaction hash
     const newPatient = await Patient.create({
-      patientId,
-      name,
+      id: Number(patientId),
       email,
+      name,
       age,
-      gender,
       location,
+      gender,
       vaccinated: [],
       transactionHash,
     });
@@ -98,25 +101,23 @@ export const getPatient = async (req, res) => {
     }
 
     // Find the patient document in the database by ID
-    const patient = await Patient.find({ patientId });
+    const patient = await Patient.find({ id: patientId });
 
     // Check if the patient document exists
     if (patient) {
-      // If yes, get the vaccine details from the blockchain contract using the contract instance
-      const PatientVaccineDetails = await contractInstance.getVaccineDetails(
-        patientId,
-        vaccineCount
-      );
+      // If yes, get the patient details from the blockchain contract using the contract instance
+      const patientVaccineDetails = await contractInstance.patients(patientId);
       // Send back a success response with the patient and vaccine details
-      res.status(200).json({
+      return res.status(200).json({
         status: 'success',
         message: 'Patient fetched successfully',
-        patient,
-        PatientVaccineDetails,
+        patientVaccineDetails,
+        txnHash: patient.transactionHash,
+        vaccinatedCount: patient.vaccinated?.length,
       });
     } else {
       // If no, send back a not found response with an error message
-      res.status(404).json({
+      return res.status(404).json({
         status: 'error',
         message: 'Patient not found',
       });
@@ -132,78 +133,63 @@ export const getPatient = async (req, res) => {
 };
 
 /**
- * Update patient data in the database and on the blockchain contract
+ * Add vaccine dose data in the database and on the blockchain contract
  * @async
  * @param {Object} req - Express request object with patient and vaccine details
  * @param {Object} res - Express response object to send back JSON response
  * @returns {Object} JSON response with updated patient data or error message
  */
-export const updatePatient = async (req, res) => {
+export const addVaccineDose = async (req, res) => {
   try {
     // Destructure the request body to get the required fields
-    const {
-      patientId,
-      vaccinatedFor,
-      vaccineName,
-      vaccineManufacturer,
-      vaccineBatchId,
-      vaccineBottleNumber,
-      vaccinatedDate,
-      vaccinatorId,
-    } = req.body;
+    const { patientId, date, vaccineId, vaccinatorId } = req.body;
 
     // Check if any of the fields are missing and send a bad request response if so
-    if (
-      !patientId ||
-      !vaccineName ||
-      !vaccineManufacturer ||
-      !vaccineBatchId ||
-      !vaccineBottleNumber ||
-      !vaccinatedDate ||
-      !vaccinatorId
-    )
+    if (!patientId || !date || !vaccineId || !vaccinatorId)
       return res
         .status(400)
         .json({ status: 'error', message: 'Please add all field' });
 
+    // Check if a patient with the same email already exists in the database
+    const patient = await Patient.findOne({ id: patientId });
+    if (!patient) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Patient details not found',
+      });
+    }
+
     // Add vaccine details to the blockchain contract and get the transaction hash
-    const txn = await contractInstance.setVaccineData(
+    const txn = await contractInstance.addVaccinationDoseWithValidation(
       patientId,
-      vaccinatedFor,
-      vaccineName,
-      vaccineManufacturer,
-      vaccineBatchId,
-      vaccineBottleNumber,
-      vaccinatedDate,
+      date,
+      vaccineId,
       vaccinatorId
     );
     const { transactionHash } = await txn.wait();
 
     // Create a vaccine object with all the details and the transaction hash
     const vaccineObject = {
-      vaccinatedFor,
-      vaccineName,
-      vaccineManufacturer,
-      vaccineBatchId,
-      vaccineBottleNumber,
-      vaccinatedDate,
+      date,
+      vaccineId,
       vaccinatorId,
-      transactionHash,
     };
 
-    // Add vaccine data to the database by updating the patient document or creating a new one if not found
-    const patient = await Patient.findOneAndUpdate(
-      { patientId },
-      { $push: { vaccinated: vaccineObject } },
-      { new: true, upsert: true }
-    );
+    if (transactionHash) {
+      // Add vaccine data to the database by updating the patient document or creating a new one if not found
+      const updatedPatient = await Patient.findOneAndUpdate(
+        { id: patientId },
+        { $push: { vaccinated: vaccineObject } },
+        { new: true, upsert: true }
+      );
 
-    // Send a success response with the updated patient data
-    res.status(200).json({
-      status: 'success',
-      message: 'Patient data updated successfully',
-      patient,
-    });
+      // Send a success response with the updated patient data
+      res.status(200).json({
+        status: 'success',
+        message: 'Patient data updated successfully',
+        updatedPatient,
+      });
+    }
   } catch (error) {
     // Send an error response with the error message and stack trace
     return res.status(500).json({

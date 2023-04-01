@@ -2,6 +2,7 @@ import httpStatus from 'http-status';
 import { userService } from '../services/index.js';
 import ApiError from '../utils/ApiError.js';
 import catchAsync from '../utils/catchAsync.js';
+
 const { CREATED, NOT_FOUND, UNAUTHORIZED } = httpStatus;
 
 /**
