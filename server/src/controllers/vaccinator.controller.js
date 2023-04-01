@@ -41,11 +41,11 @@ export const registerVaccinator = async (req, res) => {
     // Wait for the transaction to be confirmed and get the transaction hash
     const { transactionHash } = await vaccinatorTxn.wait();
 
-    const vaccineId = await getEventValue(contractInstance, 'VaccinatorAdded');
+    const vaccinatorId = await getEventValue(contractInstance, 'VaccinatorAdded');
 
     // Create a new vaccinator document in the database with the vaccinator details and the transaction hash
     const newVaccinator = await Vaccinator.create({
-      id: Number(vaccineId),
+      id: Number(vaccinatorId),
       licenseNumber,
       name,
       transactionHash,
