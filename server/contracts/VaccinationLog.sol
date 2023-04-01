@@ -184,7 +184,6 @@ contract VaccinationLog {
         uint256 _licenseNumber,
         string memory _name
     ) private {
-        vaccinatorsCount++;
         vaccinators[_id] = Vaccinator(_id, _licenseNumber, _name);
         emit VaccinatorAdded(_id);
     }
