@@ -2,6 +2,8 @@ import { Router } from 'express';
 import docsRoute from './docs.route.js';
 import patientRoute from './patient.route.js';
 import userRoute from './user.route.js';
+import vaccinatorRoute from './vaccinator.route.js';
+import vaccineRoute from './vaccine.route.js';
 
 const router = Router();
 
@@ -16,11 +18,11 @@ const defaultRoutes = [
   },
   {
     path: '/vaccine',
-    route: patientRoute,
+    route: vaccineRoute,
   },
   {
     path: '/vaccinator',
-    route: patientRoute,
+    route: vaccinatorRoute,
   },
 ];
 
