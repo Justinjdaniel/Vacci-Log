@@ -38,10 +38,12 @@ export const registerPatient = async (req, res) => {
       location,
       gender
     );
+
+    // Listening to event that emits patientId when new patient is registered.
+    const patientId = await getEventValue(contractInstance, 'PatientAdded');
+
     // Wait for the transaction to be confirmed and get the transaction hash
     const { transactionHash } = await patientTxn.wait();
-
-    const patientId = await getEventValue(contractInstance, 'PatientAdded');
 
     // Create a new patient document in the database with the patient details and the transaction hash
     const newPatient = await Patient.create({

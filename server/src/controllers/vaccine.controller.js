@@ -43,10 +43,12 @@ export const registerVaccine = async (req, res) => {
       vaccineBatchId,
       expireDate
     );
+
+    // Listening to event that emits vaccineId when new vaccine is registered.
+    const vaccineId = await getEventValue(contractInstance, 'VaccineAdded');
+
     // Wait for the transaction to be confirmed and get the transaction hash
     const { transactionHash } = await vaccineTxn.wait();
-
-    const vaccineId = await getEventValue(contractInstance, 'VaccineAdded');
 
     // Create a new vaccine document in the database with the vaccine details and the transaction hash
     const newVaccine = await Vaccine.create({
