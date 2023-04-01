@@ -10,7 +10,7 @@ paths:
       description: Get patient details
       operationId: getPatient
       parameters:
-        - name: patientId
+        - name: id
           in: query
           description: The patient unique id
           required: true
@@ -34,11 +34,11 @@ paths:
     post:
       tags:
         - Patient
-      summary: Add a new patient details to the DB
-      description: Add a new patient details to the DB
+      summary: Add a new patient details to the Blockchain and DB
+      description: Add a new patient details to the Blockchain and DB
       operationId: registerPatient
       requestBody:
-        description: Data for creating a new patient in the DB
+        description: Data for creating a new patient in the Blockchain and DB
         content:
           application/json:
             schema:
@@ -68,21 +68,21 @@ paths:
     patch:
       tags:
         - Patient
-      summary: Update Patient and add vaccine details
-      description: Update Patient and add vaccine details
-      operationId: updatePatient
+      summary: Update Patient details by adding vaccine dose details
+      description: Adding vaccine dose details
+      operationId: addVaccineDose
       requestBody:
-        description: Data for updating patient and add vaccine details
+        description: Data for updating patient and add vaccine dose details
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Patient'
+              $ref: '#/components/schemas/VaccinationDose'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Patient'
+              $ref: '#/components/schemas/VaccinationDose'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Patient'
+              $ref: '#/components/schemas/VaccinationDose'
         required: true
       responses:
         '200':

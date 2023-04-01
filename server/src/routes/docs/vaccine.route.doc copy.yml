@@ -1,0 +1,64 @@
+tags:
+  - name: Vaccinator
+    description: Everything about your vaccinator
+paths:
+  /vaccinator:
+    get:
+      tags:
+        - Vaccinator
+      summary: Get vaccinator details
+      description: Get vaccinator details
+      operationId: getVaccinator
+      parameters:
+        - name: vaccinatorId
+          in: query
+          description: The vaccinator unique id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccinator'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vaccinator'
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - Vaccinator
+      summary: Add a new vaccinator details to the Blockchain and DB
+      description: Add a new vaccinator details to the Blockchain and DB
+      operationId: registerVaccinator
+      requestBody:
+        description: Data for creating a new vaccinator in the Blockchain and DB
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vaccinator'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vaccinator'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vaccinator'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccinator'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vaccinator'
+        '405':
+          description: Invalid input
+      security:
+        - bearerAuth:
+            - write

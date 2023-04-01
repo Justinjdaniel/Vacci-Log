@@ -1,0 +1,64 @@
+tags:
+  - name: Vaccine
+    description: Everything about your vaccine
+paths:
+  /vaccine:
+    get:
+      tags:
+        - Vaccine
+      summary: Get vaccine details
+      description: Get vaccine details
+      operationId: getVaccine
+      parameters:
+        - name: vaccineId
+          in: query
+          description: The vaccine unique id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - Vaccine
+      summary: Add a new vaccine details to the Blockchain and DB
+      description: Add a new vaccine details to the Blockchain and DB
+      operationId: registerVaccine
+      requestBody:
+        description: Data for creating a new vaccine in the Blockchain and DB
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Vaccine'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Vaccine'
+        '405':
+          description: Invalid input
+      security:
+        - bearerAuth:
+            - write
