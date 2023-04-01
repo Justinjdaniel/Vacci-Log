@@ -38,8 +38,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           process.env.PRIVATE_KEY,
-          'https://polygon-mumbai.g.alchemy.com/v2/' +
-            process.env.ALCHEMY_API_KEY
+          `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
         ),
       network_id: 80001,
       confirmations: 2,

@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: GPL-3.0
-
 const VaccinationLog = artifacts.require('VaccinationLog');
 
 contract('VaccinationLog', (accounts) => {
@@ -82,7 +80,7 @@ contract('VaccinationLog', (accounts) => {
       patientId,
       date,
       vaccineId,
-      vaccinatorId,
+      vaccinatorId
     );
 
     const vaccinationDose = await vaccinationLog.patientVaccinations(

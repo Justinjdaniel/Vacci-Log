@@ -16,9 +16,9 @@ module.exports = async function (deployer) {
   const deploymentTime = (await ethers.provider.getBlock('latest')).timestamp;
   // Create an object with the addresses
   const addresses = {
-    contractAddress: contractAddress,
-    deployerAddress: deployerAddress,
-    deploymentTime: deploymentTime,
+    contractAddress,
+    deployerAddress,
+    deploymentTime,
   };
   // Get the path to the parent folder
   const parentPath = path.join(__dirname, '.');

@@ -16,7 +16,7 @@ async function main() {
     deployerAddress: contractInstance.deployTransaction.from,
     deploymentTime: contractInstance.deployTransaction.timestamp,
   };
-  fs.writeFileSync(__dirname + '/scripts/deploy.json', JSON.stringify(data));
+  fs.writeFileSync(`${__dirname}/scripts/deploy.json`, JSON.stringify(data));
 }
 
 main()
