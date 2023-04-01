@@ -1,0 +1,23 @@
+components:
+  schemas:
+    VaccinationDose:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: Date of vaccination dose
+        vaccineId:
+          type: string
+          description: ID of the vaccine used for vaccination dose
+        vaccinatorId:
+          type: string
+          description: ID of the vaccinator who administered the vaccination dose
+      example:
+        date: '2022-04-01T00:00:00Z'
+        vaccineId: 1234567890abcdef
+        vaccinatorId: 0987654321fedcba
+      required:
+        - date
+        - vaccineId
+        - vaccinatorId

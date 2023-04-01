@@ -2,21 +2,21 @@ import bcryptjs from 'bcryptjs';
 import { model, Schema } from 'mongoose';
 import validator from 'validator';
 import { toJSON } from './plugins/index.js';
-import Vaccine from './vaccine.model.js';
+import vaccinationDoseSchema from './vaccinationDose.model.js';
 
 const { compare, hash } = bcryptjs;
 const { isEmail, isNumeric } = validator;
 
 const patientSchema = Schema(
   {
-    patientId: {
+    id: {
       type: Number,
       required: true,
       unique: true,
       trim: true,
       validate(value) {
         if (!isNumeric(value)) {
-          throw new Error('Invalid vaccinator ID');
+          throw new Error('Invalid patient id');
         }
       },
     },
@@ -42,18 +42,18 @@ const patientSchema = Schema(
       required: true,
       trim: true,
     },
+    location: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     gender: {
       type: String,
       required: true,
       enum: ['male', 'female', 'other'],
       default: 'male',
     },
-    location: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    vaccinated: [Vaccine],
+    vaccinationDoses: [vaccinationDoseSchema],
     transactionHash: {
       type: String,
       required: true,

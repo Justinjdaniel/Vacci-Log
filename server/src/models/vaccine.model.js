@@ -1,12 +1,13 @@
-import { Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
 const vaccineSchema = Schema({
-  vaccinatedFor: {
-    type: String,
+  id: {
+    type: Number,
     required: true,
+    unique: true,
     trim: true,
   },
-  vaccineName: {
+  vaccinatedFor: {
     type: String,
     required: true,
     trim: true,
@@ -21,17 +22,7 @@ const vaccineSchema = Schema({
     required: true,
     trim: true,
   },
-  vaccineBottleNumber: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  vaccinatedDate: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  vaccinatorId: {
+  expireDate: {
     type: String,
     required: true,
     trim: true,
@@ -42,4 +33,6 @@ const vaccineSchema = Schema({
   },
 });
 
-export default vaccineSchema;
+const Vaccine = model('Vaccine', vaccineSchema);
+
+export default Vaccine;

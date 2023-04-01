@@ -7,9 +7,7 @@ components:
         vaccineName: Vaccine Name
         vaccineManufacturer: Pfizer
         vaccineBatchId: A/154/05
-        vaccineBottleNumber: 1A543
-        vaccinatedDate: 2022-02-20T02:02:02.157Z
-        vaccinatorId: ID-10241
+        expireDate: 2022-02-20T02:02:02.157Z
         transactionHash: 0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4
       properties:
         vaccinatedFor:
@@ -28,18 +26,10 @@ components:
           type: string
           description: Batch ID of the vaccine
           example: 'A/154/05'
-        vaccineBottleNumber:
+        expireDate:
           type: string
-          description: Bottle number of the vaccine
-          example: '1A543'
-        vaccinatedDate:
-          type: string
-          description: Date when vaccinated
+          description: Vaccine expire date
           example: '2022-02-20'
-        vaccinatorId:
-          type: string
-          description: ID of the vaccinator
-          example: 'ID-10241'
         transactionHash:
           type: string
           description: Transaction hash of record added to blockchain
@@ -49,7 +39,5 @@ components:
         - vaccineName
         - vaccineManufacturer
         - vaccineBatchId
-        - vaccineBottleNumber
-        - vaccinatedDate
-        - vaccinatorId
+        - expireDate
         - transactionHash

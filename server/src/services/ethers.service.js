@@ -4,13 +4,12 @@ import artifacts from '../../contracts/VaccinationLog.json' assert { type: 'json
 import __dirname from '../../dirname.js';
 import { alchemyKey, contractAddress, wallet } from '../config/config.js';
 
-const NETWORK = 'MATIC_MAINNET';
-const PROVIDER_URL = `https://polygon-mumbai.g.alchemy.com/v2/${alchemyKey}`;
+const NETWORK = 'maticmum';
 const EXPLORER_URL = 'https://mumbai.polygonscan.com/tx/';
 const DEPLOY_FILE = __dirname + '/deploy.json';
 
 // Create a provider
-const provider = new providers.AlchemyProvider(NETWORK, PROVIDER_URL);
+const provider = new providers.AlchemyProvider(NETWORK, alchemyKey);
 
 // Create a signer
 const signer = new Wallet(wallet.key, provider);
@@ -47,20 +46,47 @@ export const deployContract = async () => {
 };
 
 /**
- * Create a contract instance from an existing address
- * @returns {Contract} The contract instance
- * @throws {Error} If the creation fails
+ * Creates a new contract instance
+ * @param {string} contractAddress - The address of the contract
+ * @param {Array} abi - The ABI of the contract
+ * @param {Signer} signer - The signer object
+ * @returns {Contract} - The contract instance
  */
-const contractInstance = () => {
-  try {
-    return new Contract(contractAddress, artifacts.abi, signer);
-  } catch (error) {
-    console.error(`Failed to create contract instance: ${error.message}`);
-    throw error;
-  }
-};
+const contractInstance = new Contract(contractAddress, artifacts.abi, signer);
 
 export default contractInstance;
 
 // Export the explorer URL for convenience
 export const explorerUrl = EXPLORER_URL;
+
+const addPatient = async () => {
+  // Define a filter for the PatientAdded event
+  // const filter = contractInstance.filters.PatientAdded();
+
+  // // Subscribe to the event using the filter
+  // contractInstance.on(filter, (patientCount) => {
+  //   // Do something with the patientCount
+  //   console.log(patientCount);
+  // });
+
+  getEventValue(contractInstance, 'PatientAdded');
+
+  console.log('function called');
+  // Call the addPatientWithValidation function
+  const patientTxn = await contractInstance.addPatientWithValidation(
+    'John Doe',
+    20,
+    '123 Main St',
+    0
+  );
+  const result = await patientTxn.wait();
+};
+
+async function getEventValue(contractInstance, eventName) {
+  const filter = contractInstance.filters[eventName]();
+
+  const events = await contractInstance.queryFilter(filter);
+  console.log(events);
+}
+
+addPatient();

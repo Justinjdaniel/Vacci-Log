@@ -1,0 +1,27 @@
+components:
+  schemas:
+    Vaccinator:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID of the vaccinator
+        licenseNumber:
+          type: integer
+          description: License number of the vaccinator
+        name:
+          type: string
+          description: Name of the vaccinator
+        transactionHash:
+          type: string
+          description: Transaction hash of record added to blockchain
+      example:
+        id: 123
+        licenseNumber: 456
+        name: John Doe
+        transactionHash: '0x9b17feaa00a0fab878f6d6fa268d2c0ce53211c4dcbef9314276578e026875a4'
+      required:
+        - id
+        - licenseNumber
+        - name
+        - transactionHash

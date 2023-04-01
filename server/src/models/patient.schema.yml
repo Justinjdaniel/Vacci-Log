@@ -32,7 +32,7 @@ components:
         vaccinated:
           type: array
           items:
-            $ref: '#/components/schemas/Vaccine'
+            $ref: '#/components/schemas/VaccinationDose'
         transactionHash:
           type: string
           description: transaction hash of transaction done while adding patient to blockchain

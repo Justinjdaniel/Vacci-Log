@@ -14,6 +14,14 @@ const defaultRoutes = [
     path: '/patient',
     route: patientRoute,
   },
+  {
+    path: '/vaccine',
+    route: patientRoute,
+  },
+  {
+    path: '/vaccinator',
+    route: patientRoute,
+  },
 ];
 
 const devRoutes = [
