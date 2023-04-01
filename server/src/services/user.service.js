@@ -1,6 +1,7 @@
 import httpStatus from 'http-status';
 import { User } from '../models/index.js';
 import ApiError from '../utils/ApiError.js';
+
 const { BAD_REQUEST } = httpStatus;
 /**
  * Create a user
