@@ -1,74 +1,105 @@
-import { expect } from 'chai';
-import { contractDeployer } from '../src/services/ethers.service.js';
-// const { ethers } = require('hardhat'); //use this if testing using remix Ide
+// SPDX-License-Identifier: GPL-3.0
 
-describe('VaccinationLog', async function () {
-  it('Should create a new patient', async function () {
-    // use this if testing using remix Ide
-    /* // Create a contract factory
-    const VaccinationLog = await ethers.getContractFactory('VaccinationLog');
-    const vaccinationLog = await VaccinationLog.deploy();
-    */
-    const vaccinationLog = await contractDeployer();
+const VaccinationLog = artifacts.require('VaccinationLog');
 
-    await vaccinationLog.createPatient(1, 'John Doe', 30, 0, '123 Main St.');
+contract('VaccinationLog', (accounts) => {
+  let vaccinationLog;
 
-    const patient = await vaccinationLog.PatientUID(1);
-
-    expect(patient.id).to.equal(1);
-    expect(patient.name).to.equal('John Doe');
-    expect(patient.age).to.equal(30);
-    expect(patient.gender).to.equal(0);
-    expect(patient.location).to.equal('123 Main St.');
+  before(async () => {
+    vaccinationLog = await VaccinationLog.deployed();
   });
 
-  it('Should create a new vaccine', async function () {
-    // use this if testing using remix Ide
-    /* // Create a contract factory
-    const VaccinationLog = await ethers.getContractFactory('VaccinationLog');
-    const vaccinationLog = await VaccinationLog.deploy();
-    */
-    const vaccinationLog = await contractDeployer();
+  it('should add a new patient', async () => {
+    const id = 1;
+    const name = 'John Doe';
+    const age = 25;
+    const location = '123 Main St';
+    const gender = 0; // 0 for Male, 1 for Female, 2 for Other
 
-    await vaccinationLog.createVaccine(
-      1,
-      'COVID-19',
-      'Pfizer-BioNTech',
-      'Comirnaty'
-    );
+    await vaccinationLog.addPatientWithValidation(name, age, location, gender);
 
-    const vaccine = await vaccinationLog.VaccineUID(1);
+    const patient = await vaccinationLog.patients(id);
 
-    expect(vaccine.id).to.equal(1);
-    expect(vaccine.vaccineFor).to.equal('COVID-19');
-    expect(vaccine.vaccineName).to.equal('Pfizer-BioNTech');
-    expect(vaccine.vaccineManufacturer).to.equal('Comirnaty');
+    assert.equal(patient.id, id, 'ID should be equal');
+    assert.equal(patient.name, name, 'Name should be equal');
+    assert.equal(patient.age, age, 'Age should be equal');
+    assert.equal(patient.location, location, 'Location should be equal');
+    assert.equal(patient.gender, gender, 'Gender should be equal');
   });
 
-  it('Should add a new vaccination record', async function () {
-    // use this if testing using remix Ide
-    /* // Create a contract factory
-    const VaccinationLog = await ethers.getContractFactory('VaccinationLog');
-    const vaccinationLog = await VaccinationLog.deploy();
-    */
-    const vaccinationLog = await contractDeployer();
+  it('should add a new vaccine', async () => {
+    const id = 1;
+    const vaccineFor = 'COVID-19';
+    const manufacturer = 'Pfizer';
+    const batchId = 'AB12345';
+    const expireDate = '2023-04-01';
 
-    await vaccinationLog.createVaccineDose(
-      1,
-      1,
-      'ABC123',
-      'XYZ456',
-      '2022-03-25',
-      'Dr. Jane Smith'
+    await vaccinationLog.addVaccineWithValidation(
+      vaccineFor,
+      manufacturer,
+      batchId,
+      expireDate
     );
 
-    const patientDoseDetails = await vaccinationLog.PatientDoseDetails(1, 1);
+    const vaccine = await vaccinationLog.vaccines(id);
 
-    expect(patientDoseDetails.patientUID).to.equal(1);
-    expect(patientDoseDetails.vaccineId).to.equal(1);
-    expect(patientDoseDetails.vaccineBatchId).to.equal('ABC123');
-    expect(patientDoseDetails.vaccineBottleNumber).to.equal('XYZ456');
-    expect(patientDoseDetails.vaccinatedDate).to.equal('2022-03-25');
-    expect(patientDoseDetails.vaccinatorId).to.equal('Dr. Jane Smith');
+    assert.equal(vaccine.id, id, 'ID should be equal');
+    assert.equal(vaccine.vaccineFor, vaccineFor, 'Vaccine for should be equal');
+    assert.equal(
+      vaccine.manufacturer,
+      manufacturer,
+      'Manufacturer should be equal'
+    );
+    assert.equal(vaccine.batchId, batchId, 'Batch ID should be equal');
+    assert.equal(vaccine.expireDate, expireDate, 'Expire date should be equal');
+  });
+
+  it('should add a new vaccinator', async () => {
+    const id = 1;
+    const licenseNumber = 123456;
+    const name = 'Dr. Jane Doe';
+
+    await vaccinationLog.addVaccinatorWithValidation(licenseNumber, name);
+
+    const vaccinator = await vaccinationLog.vaccinators(id);
+
+    assert.equal(vaccinator.id, id, 'ID should be equal');
+    assert.equal(
+      vaccinator.licenseNumber,
+      licenseNumber,
+      'License number should be equal'
+    );
+    assert.equal(vaccinator.name, name, 'Name should be equal');
+  });
+
+  it('should add a new vaccination dose', async () => {
+    const patientId = 1;
+    const vaccineId = 1;
+    const vaccinatorId = 1;
+    const date = '2023-04-01';
+
+    await vaccinationLog.addVaccinationDoseWithValidation(
+      patientId,
+      date,
+      vaccineId,
+      vaccinatorId,
+    );
+
+    const vaccinationDose = await vaccinationLog.patientVaccinations(
+      patientId,
+      0
+    );
+
+    assert.equal(vaccinationDose.date, date, 'Date should be equal');
+    assert.equal(
+      vaccinationDose.vaccineId,
+      vaccineId,
+      'Vaccine ID should be equal'
+    );
+    assert.equal(
+      vaccinationDose.vaccinatorId,
+      vaccinatorId,
+      'Vaccinator ID should be equal'
+    );
   });
 });
