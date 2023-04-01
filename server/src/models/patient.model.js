@@ -1,11 +1,7 @@
-import bcryptjs from 'bcryptjs';
 import { model, Schema } from 'mongoose';
 import validator from 'validator';
 import { toJSON } from './plugins/index.js';
 import vaccinationDoseSchema from './vaccinationDose.model.js';
-
-const { compare, hash } = bcryptjs;
-const { isEmail, isNumeric } = validator;
 
 const patientSchema = Schema(
   {
@@ -15,7 +11,7 @@ const patientSchema = Schema(
       unique: true,
       trim: true,
       validate(value) {
-        if (!isNumeric(value)) {
+        if (!validator.Number.isInteger(value)) {
           throw new Error('Invalid patient id');
         }
       },
@@ -27,7 +23,7 @@ const patientSchema = Schema(
       trim: true,
       lowercase: true,
       validate(value) {
-        if (!isEmail(value)) {
+        if (!validator.isEmail(value)) {
           throw new Error('Invalid email');
         }
       },
@@ -61,6 +57,7 @@ const patientSchema = Schema(
   },
   {
     timestamps: true,
+    _id: false,
   }
 );
 
@@ -80,24 +77,6 @@ patientSchema.statics.isEmailTaken = async function (email, excludePatientId) {
   });
   return !!patient;
 };
-
-/**
- * Check if password matches the patient's password
- * @param {string} password
- * @returns {Promise<boolean>}
- */
-patientSchema.methods.isPasswordMatch = async function (password) {
-  const patient = this;
-  return compare(password, patient.password);
-};
-
-patientSchema.pre('save', async function (next) {
-  const patient = this;
-  if (patient.isModified('password')) {
-    patient.password = await hash(patient.password, 8);
-  }
-  next();
-});
 
 /**
  * @typedef Patient
