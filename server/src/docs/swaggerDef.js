@@ -5,7 +5,7 @@ const swaggerDef = {
   info: {
     title: 'VacciLog Server',
     description:
-      'Server is for name is vaccinations log, which is used to create get and add patient, vaccinator, vaccine, and patient vaccine dose. Uses blockchain to store data.\n\nSome useful links:\n- [The Github Repository](https://github.com/Justinjdaniel/Vacci-Log)',
+      'The server is a smart contract implemented in Solidity called "VaccinationLog". It tracks and logs the vaccination status of patients, allowing the addition and retrieval of data about patients, vaccines, vaccinators, and vaccination doses. It stores the data in mappings, validates the data, and emits events for each addition.\n\nSome useful links:\n- [The Github Repository](https://github.com/Justinjdaniel/Vacci-Log)\n- [Remix IDE](https://remix.ethereum.org)',
     version,
     license: {
       name: 'MIT',
@@ -13,6 +13,10 @@ const swaggerDef = {
     },
     contact: {
       email: 'justinjdaniel@email.com',
+    },
+    externalDocs: {
+      description: 'Github Repository',
+      url: 'https://github.com/Justinjdaniel/Vacci-Log',
     },
     termsOfService:
       'https://github.com/Justinjdaniel/Vacci-Log/blob/master/TERMS.md',

@@ -8,9 +8,9 @@ const router = Router();
 const specs = swaggerJsDoc({
   swaggerDefinition,
   apis: [
-    'src/models/*.yml',
+    'src/models/docs/*.yml',
     'src/docs/*.yml',
-    'src/routes/*.yml',
+    'src/routes/docs/*.yml',
     'src/routes/*.js',
   ],
 });
