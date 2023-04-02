@@ -2,11 +2,15 @@ import { model, Schema } from 'mongoose';
 
 const vaccinatorSchema = Schema(
   {
-    id: {
+    _id: {
       type: Number,
       required: true,
-      unique: true,
       trim: true,
+      validate(value) {
+        if (!validator.isInt(value)) {
+          throw new Error('Invalid vaccinator id');
+        }
+      },
     },
     licenseNumber: {
       type: Number,
@@ -26,7 +30,6 @@ const vaccinatorSchema = Schema(
   },
   {
     timestamps: true,
-    _id: false,
   }
 );
 
