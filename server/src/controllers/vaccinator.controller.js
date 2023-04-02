@@ -84,7 +84,7 @@ export const registerVaccinator = async (req, res) => {
 export const getVaccinator = async (req, res) => {
   try {
     // Get the vaccinator ID from the query parameters
-    const vaccinatorId = req.query.id;
+    const { vaccinatorId } = req.query;
 
     // Check if the vaccinator ID is provided
     if (!vaccinatorId) {
@@ -98,11 +98,13 @@ export const getVaccinator = async (req, res) => {
     // Check if the vaccinator document exists
     if (vaccinator) {
       // If yes, get the vaccinator details from the blockchain contract using the contract instance
-      const vaccineDetails = await contractInstance.vaccines(vaccinatorId);
+      const vaccinatorDetails = await contractInstance.vaccinators(
+        vaccinatorId
+      );
       // Send back a success response with the vaccinator and vaccinator details
       return sendResponse(res, 201, 'Vaccinator fetched successfully', {
-        vaccineDetails,
-        txnHash: vaccine.transactionHash,
+        vaccinatorDetails,
+        txnHash: vaccinator.transactionHash,
       });
     } else {
       // If no, send back a not found response with an error message

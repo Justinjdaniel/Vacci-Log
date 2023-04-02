@@ -79,7 +79,7 @@ export const registerVaccine = async (req, res) => {
 export const getVaccine = async (req, res) => {
   try {
     // Get the vaccine ID from the query parameters
-    const vaccineId = req.query.id;
+    const { vaccineId } = req.query;
 
     // Check if the vaccine ID is provided
     if (!vaccineId) {
