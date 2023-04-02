@@ -1,6 +1,7 @@
 import { Patient } from '../models/index.js';
 import { contractInstance } from '../services/index.js';
 import getEventValue from '../utils/getEventValue.js';
+import { sendError, sendResponse } from '../utils/helpers.util.js';
 
 /**
  * Register a new patient in the blockchain and the database
@@ -16,19 +17,13 @@ export const registerPatient = async (req, res) => {
 
     // Validate that all fields are present
     if (!email || !name || !age || !location || !gender) {
-      return res.status(400).json({
-        status: 'warning',
-        message: 'Please add all fields',
-      });
+      return sendError(res, 400, 'Please add all fields');
     }
 
     // Check if a patient with the same email already exists in the database
     const existingPatient = await Patient.findOne({ email });
     if (existingPatient) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Patient already exists',
-      });
+      return sendError(res, 400, 'Patient already exists');
     }
 
     // Call the addPatientWithValidation function from the contract instance to register the patient in the blockchain
@@ -59,25 +54,16 @@ export const registerPatient = async (req, res) => {
 
     // If the patient document is created successfully, send back a success message with the patient data
     if (newPatient) {
-      return res.status(201).json({
-        status: 'success',
-        message: 'Patient added successfully',
+      return sendResponse(res, 201, 'Patient added successfully', {
         patient: newPatient,
       });
     }
 
     // If the patient document is not created, send back an error message
-    return res.status(400).json({
-      status: 'error',
-      message: 'Failed to add to DB',
-    });
+    return sendError(res, 400, 'Failed to add to DB');
   } catch (error) {
     // If any error occurs during the process, send back an error message with the error details
-    return res.status(400).json({
-      status: 'error',
-      message: 'Patient registration failed',
-      error,
-    });
+    return sendError(res, 400, 'Patient registration failed', error);
   }
 };
 
@@ -96,10 +82,7 @@ export const getPatient = async (req, res) => {
     // Check if the patient ID is provided
     if (!patientId) {
       // If not, send back a bad request response with an error message
-      return res.status(400).json({
-        status: 'error',
-        message: 'Please provide a patient ID',
-      });
+      return sendError(res, 400, 'Please provide a patient ID');
     }
 
     // Find the patient document in the database by ID
@@ -110,27 +93,18 @@ export const getPatient = async (req, res) => {
       // If yes, get the patient details from the blockchain contract using the contract instance
       const patientVaccineDetails = await contractInstance.patients(patientId);
       // Send back a success response with the patient and vaccine details
-      return res.status(200).json({
-        status: 'success',
-        message: 'Patient fetched successfully',
+      return sendResponse(res, 201, 'Patient fetched successfully', {
         patientVaccineDetails,
         txnHash: patient.transactionHash,
         vaccinatedCount: patient.vaccinated?.length,
       });
     } else {
       // If no, send back a not found response with an error message
-      return res.status(404).json({
-        status: 'error',
-        message: 'Patient not found',
-      });
+      return sendError(res, 404, 'Patient not found');
     }
   } catch (error) {
-    // If there is any error during the process, send back a server error response with the error details
-    return res.status(500).json({
-      status: 'error',
-      message: 'Error while fetching patient data',
-      error,
-    });
+    // Return a 400 response with an error message and the error object
+    return sendError(res, 400, 'Error while fetching patient data', error);
   }
 };
 
@@ -148,18 +122,11 @@ export const addVaccineDose = async (req, res) => {
 
     // Check if any of the fields are missing and send a bad request response if so
     if (!patientId || !date || !vaccineId || !vaccinatorId)
-      return res
-        .status(400)
-        .json({ status: 'error', message: 'Please add all field' });
+      return sendError(res, 400, 'Please add all fields');
 
     // Check if a patient with the same email already exists in the database
     const patient = await Patient.findOne({ id: patientId });
-    if (!patient) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Patient details not found',
-      });
-    }
+    if (!patient) return sendError(res, 404, 'Patient details not found');
 
     // Add vaccine details to the blockchain contract and get the transaction hash
     const txn = await contractInstance.addVaccinationDoseWithValidation(
@@ -186,18 +153,15 @@ export const addVaccineDose = async (req, res) => {
       );
 
       // Send a success response with the updated patient data
-      res.status(200).json({
-        status: 'success',
-        message: 'Patient data updated successfully',
+      return sendResponse(res, 201, 'Patient data updated successfully', {
         updatedPatient,
       });
     }
+
+    // If the patient document is not created, send back an error message
+    return sendError(res, 400, 'Error while updating patient data');
   } catch (error) {
-    // Send an error response with the error message and stack trace
-    return res.status(500).json({
-      status: 'error',
-      message: 'Error while updating patient data',
-      error,
-    });
+    // If any error occurs during the process, send back an error message with the error details
+    return sendError(res, 400, 'Error while updating patient data', error);
   }
 };

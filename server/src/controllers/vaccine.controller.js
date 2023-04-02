@@ -1,6 +1,7 @@
 import { Vaccine } from '../models/index.js';
 import { contractInstance } from '../services/index.js';
 import getEventValue from '../utils/getEventValue.js';
+import { sendError, sendResponse } from '../utils/helpers.util.js';
 
 /**
  * Registers a vaccine in the blockchain and database
@@ -16,10 +17,7 @@ export const registerVaccine = async (req, res) => {
 
     // Validate that all fields are present
     if (!vaccineFor || !vaccineManufacturer || !vaccineBatchId || !expireDate) {
-      return res.status(400).json({
-        status: 'warning',
-        message: 'Please add all fields',
-      });
+      return sendError(res, 400, 'Please add all fields');
     }
 
     // Check if a vaccine with the same email already exists in the database
@@ -30,10 +28,7 @@ export const registerVaccine = async (req, res) => {
       expireDate,
     });
     if (existingVaccine) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Vaccine already exists',
-      });
+      return sendError(res, 400, 'Vaccine already exists');
     }
 
     // Call the addVaccineWithValidation function from the contract instance to register the vaccine in the blockchain
@@ -62,25 +57,16 @@ export const registerVaccine = async (req, res) => {
 
     // If the vaccine document is created successfully, send back a success message with the vaccine data
     if (newVaccine) {
-      return res.status(201).json({
-        status: 'success',
-        message: 'Vaccine added successfully',
+      return sendResponse(res, 201, 'Vaccine added successfully', {
         vaccine: newVaccine,
       });
     }
 
     // If the vaccine document is not created, send back an error message
-    return res.status(400).json({
-      status: 'error',
-      message: 'Failed to add to DB',
-    });
+    return sendError(res, 400, 'Failed to add to DB');
   } catch (error) {
     // If any error occurs during the process, send back an error message with the error details
-    return res.status(400).json({
-      status: 'error',
-      message: 'Vaccine registration failed',
-      error,
-    });
+    return sendError(res, 400, 'Vaccinator registration failed', error);
   }
 };
 
@@ -98,13 +84,9 @@ export const getVaccine = async (req, res) => {
     // Check if the vaccine ID is provided
     if (!vaccineId) {
       // If not, send back a bad request response with an error message
-      return res.status(400).json({
-        status: 'error',
-        message: 'Please provide a vaccine ID',
-      });
+      return sendError(res, 400, 'Please provide a vaccine ID');
     }
-
-    // Find the vaccine document in the database by ID
+    // Find the vaccinator document in the database by ID
     const vaccine = await Vaccine.find({ id: vaccineId });
 
     // Check if the vaccine document exists
@@ -112,25 +94,16 @@ export const getVaccine = async (req, res) => {
       // If yes, get the vaccine details from the blockchain contract using the contract instance
       const vaccineDetails = await contractInstance.vaccines(vaccineId);
       // Send back a success response with the vaccine and vaccine details
-      return res.status(200).json({
-        status: 'success',
-        message: 'Vaccine fetched successfully',
+      return sendResponse(res, 201, 'Vaccine fetched successfully', {
         vaccineDetails,
         txnHash: vaccine.transactionHash,
       });
     } else {
       // If no, send back a not found response with an error message
-      return res.status(404).json({
-        status: 'error',
-        message: 'Vaccine not found',
-      });
+      return sendError(res, 404, 'Vaccine not found');
     }
   } catch (error) {
-    // If there is any error during the process, send back a server error response with the error details
-    return res.status(500).json({
-      status: 'error',
-      message: 'Error while fetching vaccine data',
-      error,
-    });
+    // Return a 400 response with an error message and the error object
+    return sendError(res, 400, 'Error while fetching vaccine data', error);
   }
 };
