@@ -26,12 +26,14 @@ export const registerPatient = async (req, res) => {
       return sendError(res, 400, 'Patient already exists');
     }
 
+    const genderEnumValue = { male: 0, female: 1, others: 2 };
+
     // Call the addPatientWithValidation function from the contract instance to register the patient in the blockchain
     const patientTxn = await contractInstance.addPatientWithValidation(
       name,
       age,
       location,
-      gender
+      genderEnumValue[gender]
     );
 
     // Listening to event that emits patientId when new patient is registered.
@@ -42,7 +44,7 @@ export const registerPatient = async (req, res) => {
 
     // Create a new patient document in the database with the patient details and the transaction hash
     const newPatient = await Patient.create({
-      id: Number(patientId),
+      _id: Number(patientId),
       email,
       name,
       age,
