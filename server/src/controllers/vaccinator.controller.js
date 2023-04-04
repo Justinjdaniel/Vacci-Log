@@ -2,6 +2,7 @@ import { Vaccinator } from '../models/index.js';
 import { contractInstance } from '../services/index.js';
 import getEventValue from '../utils/getEventValue.js';
 import { sendError, sendResponse } from '../utils/helpers.util.js';
+import { intToObjectId } from '../utils/objectIdConverter.js';
 
 /**
  * Registers a vaccinator in the blockchain and database
@@ -44,20 +45,16 @@ export const registerVaccinator = async (req, res) => {
     // Wait for the transaction to be confirmed and get the transaction hash
     const { transactionHash } = await vaccinatorTxn.wait();
 
-    console.log('vaccinator data', {
-      id: Number(vaccinatorId),
+    // Create a new vaccinator document in the database with the vaccinator details and the transaction hash
+    const vaccinator = new Vaccinator({
+      _id: intToObjectId(Number(vaccinatorId)),
       licenseNumber,
       name,
       transactionHash,
     });
 
-    // Create a new vaccinator document in the database with the vaccinator details and the transaction hash
-    const newVaccinator = await Vaccinator.create({
-      id: Number(vaccinatorId),
-      licenseNumber,
-      name,
-      transactionHash,
-    });
+    // Save the document to the database
+    const newVaccinator = await vaccinator.save();
 
     // If the vaccinator document is created successfully, send back a success message with the vaccinator data
     if (newVaccinator) {
@@ -71,7 +68,7 @@ export const registerVaccinator = async (req, res) => {
     return sendError(res, 400, 'Failed to add to DB');
   } catch (error) {
     // Return a 400 response with an error message and the error object
-    return sendError(res, 400, 'Vaccinator registration failed', error);
+    return sendError(res, 500, 'Vaccinator registration failed', error);
   }
 };
 
@@ -93,10 +90,12 @@ export const getVaccinator = async (req, res) => {
     }
 
     // Find the vaccinator document in the database by ID
-    const vaccinator = await Vaccinator.find({ id: vaccinatorId });
+    const vaccinator = await Vaccinator.find({
+      _id: intToObjectId(Number(vaccinatorId)),
+    });
 
     // Check if the vaccinator document exists
-    if (vaccinator) {
+    if (vaccinator.length > 0) {
       // If yes, get the vaccinator details from the blockchain contract using the contract instance
       const vaccinatorDetails = await contractInstance.vaccinators(
         vaccinatorId

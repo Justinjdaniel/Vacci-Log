@@ -46,14 +46,17 @@ export const registerVaccine = async (req, res) => {
     const { transactionHash } = await vaccineTxn.wait();
 
     // Create a new vaccine document in the database with the vaccine details and the transaction hash
-    const newVaccine = await Vaccine.create({
-      id: Number(vaccineId),
+    const vaccine = new Vaccine({
+      id: intToObjectId(Number(vaccineId)),
       vaccineFor,
       vaccineManufacturer,
       vaccineBatchId,
       expireDate,
       transactionHash,
     });
+
+    // Save the document to the database
+    const newVaccine = await vaccine.save();
 
     // If the vaccine document is created successfully, send back a success message with the vaccine data
     if (newVaccine) {
@@ -87,10 +90,12 @@ export const getVaccine = async (req, res) => {
       return sendError(res, 400, 'Please provide a vaccine ID');
     }
     // Find the vaccinator document in the database by ID
-    const vaccine = await Vaccine.find({ id: vaccineId });
+    const vaccine = await Vaccine.find({
+      _id: intToObjectId(Number(vaccineId)),
+    });
 
     // Check if the vaccine document exists
-    if (vaccine) {
+    if (vaccine.length > 0) {
       // If yes, get the vaccine details from the blockchain contract using the contract instance
       const vaccineDetails = await contractInstance.vaccines(vaccineId);
       // Send back a success response with the vaccine and vaccine details

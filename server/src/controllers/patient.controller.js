@@ -2,6 +2,7 @@ import { Patient } from '../models/index.js';
 import { contractInstance } from '../services/index.js';
 import getEventValue from '../utils/getEventValue.js';
 import { sendError, sendResponse } from '../utils/helpers.util.js';
+import { intToObjectId } from '../utils/objectIdConverter.js';
 
 /**
  * Register a new patient in the blockchain and the database
@@ -43,8 +44,8 @@ export const registerPatient = async (req, res) => {
     const { transactionHash } = await patientTxn.wait();
 
     // Create a new patient document in the database with the patient details and the transaction hash
-    const newPatient = await Patient.create({
-      _id: Number(patientId),
+    const patient = new Patient({
+      _id: intToObjectId(Number(patientId)),
       email,
       name,
       age,
@@ -53,6 +54,9 @@ export const registerPatient = async (req, res) => {
       vaccinated: [],
       transactionHash,
     });
+
+    // Save the document to the database
+    const newPatient = await patient.save();
 
     // If the patient document is created successfully, send back a success message with the patient data
     if (newPatient) {
@@ -88,10 +92,12 @@ export const getPatient = async (req, res) => {
     }
 
     // Find the patient document in the database by ID
-    const patient = await Patient.find({ id: patientId });
+    const patient = await Patient.find({
+      _id: intToObjectId(Number(patientId)),
+    });
 
     // Check if the patient document exists
-    if (patient) {
+    if (patient.length > 0) {
       // If yes, get the patient details from the blockchain contract using the contract instance
       const patientVaccineDetails = await contractInstance.patients(patientId);
       // Send back a success response with the patient and vaccine details
@@ -127,8 +133,11 @@ export const addVaccineDose = async (req, res) => {
       return sendError(res, 400, 'Please add all fields');
 
     // Check if a patient with the same email already exists in the database
-    const patient = await Patient.findOne({ id: patientId });
-    if (!patient) return sendError(res, 404, 'Patient details not found');
+    const patient = await Patient.findOne({
+      _id: intToObjectId(Number(patientId)),
+    });
+    if (!patient.length > 0)
+      return sendError(res, 404, 'Patient details not found');
 
     // Add vaccine details to the blockchain contract and get the transaction hash
     const txn = await contractInstance.addVaccinationDoseWithValidation(
