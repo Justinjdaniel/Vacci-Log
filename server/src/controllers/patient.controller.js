@@ -61,6 +61,7 @@ export const registerPatient = async (req, res) => {
     // If the patient document is created successfully, send back a success message with the patient data
     if (newPatient) {
       return sendResponse(res, 201, 'Patient added successfully', {
+        patientId,
         patient: newPatient,
       });
     }

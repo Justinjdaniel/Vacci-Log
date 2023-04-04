@@ -61,6 +61,7 @@ export const registerVaccine = async (req, res) => {
     // If the vaccine document is created successfully, send back a success message with the vaccine data
     if (newVaccine) {
       return sendResponse(res, 201, 'Vaccine added successfully', {
+        vaccineId,
         vaccine: newVaccine,
       });
     }
