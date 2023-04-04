@@ -3,14 +3,7 @@ import { model, Schema } from 'mongoose';
 const vaccineSchema = Schema(
   {
     _id: {
-      type: Number,
-      required: true,
-      trim: true,
-      validate(value) {
-        if (!validator.isInt(value)) {
-          throw new Error('Invalid vaccine id');
-        }
-      },
+      type: Schema.Types.ObjectId,
     },
     vaccineFor: {
       type: String,

@@ -6,14 +6,7 @@ import vaccinationDoseSchema from './vaccinationDose.model.js';
 const patientSchema = Schema(
   {
     _id: {
-      type: Number,
-      required: true,
-      trim: true,
-      validate(value) {
-        if (!validator.isInt(value)) {
-          throw new Error('Invalid patient id');
-        }
-      },
+      type: Schema.Types.ObjectId,
     },
     email: {
       type: String,
@@ -60,7 +53,7 @@ const patientSchema = Schema(
 );
 
 // add plugin that converts mongoose to json
-// patientSchema.plugin(toJSON);
+patientSchema.plugin(toJSON);
 
 /**
  * Check if email is taken
