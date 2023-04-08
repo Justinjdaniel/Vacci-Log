@@ -6,9 +6,9 @@ import Sidebar from '../components/layouts/Sidebar';
 
 const DashboardLayout = () => {
   return (
-    <Box minH='100vh' bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH='100dvh' bg={useColorModeValue('gray.100', 'gray.900')}>
       <Sidebar />
-      <Flex flexDir='column' ml={{ base: 0, md: 60 }} minH='100vh'>
+      <Flex flexDir='column' ml={{ base: 0, md: 60 }} minH='100dvh'>
         <Header />
         <Flex p='4'>
           <Outlet />

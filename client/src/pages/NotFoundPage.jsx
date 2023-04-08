@@ -1,11 +1,11 @@
-import { Flex, Box, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 
 const NotFoundPage = () => {
   return (
     <Flex
       alignItems='center'
       justifyContent='center'
-      height='100vh'
+      height='100dvh'
       flexDirection='column'>
       <Box maxWidth='500px' textAlign='center'>
         <Heading fontSize='6xl' mb={8}>

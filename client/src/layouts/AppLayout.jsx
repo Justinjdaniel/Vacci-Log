@@ -7,7 +7,7 @@ const AppLayout = () => {
   return (
     <Flex
       flexDir='column'
-      minH='100vh'
+      minH='100dvh'
       bg={useColorModeValue('gray.100', 'gray.900')}>
       <Header />
       <Flex p='4'>
