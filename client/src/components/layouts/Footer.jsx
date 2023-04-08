@@ -7,7 +7,7 @@ import {
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaGithub, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -47,14 +47,14 @@ export default function Footer() {
         align={{ base: 'center', md: 'center' }}>
         <Text>© 2023 Made with passion.</Text>
         <Stack direction={'row'} spacing={6}>
-          <SocialButton label={'Twitter'} href={'#'}>
-            <FaTwitter />
+          <SocialButton label={'LinkedIn'} href={'#'}>
+            <FaLinkedinIn />
           </SocialButton>
           <SocialButton label={'YouTube'} href={'#'}>
             <FaYoutube />
           </SocialButton>
-          <SocialButton label={'Instagram'} href={'#'}>
-            <FaInstagram />
+          <SocialButton label={'GitHub'} href={'#'}>
+            <FaGithub />
           </SocialButton>
         </Stack>
       </Container>

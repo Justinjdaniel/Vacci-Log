@@ -4,6 +4,7 @@ import {
   HStack,
   IconButton,
   Link,
+  chakra,
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -26,7 +27,8 @@ function Header() {
             textDecoration: 'none',
             color: useColorModeValue('teal.500', 'teal.200'),
           }}>
-          My App
+          Vaccination
+          <chakra.span color='red.500'> Log</chakra.span>
         </Link>
 
         <HStack spacing={8} alignItems={'center'}>

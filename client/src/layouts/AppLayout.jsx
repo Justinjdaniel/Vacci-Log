@@ -10,10 +10,9 @@ const AppLayout = () => {
       minH='100dvh'
       bg={useColorModeValue('gray.100', 'gray.900')}>
       <Header />
-      <Flex p='4'>
+      <Flex flex='1' htmlFor='outlet'>
         <Outlet />
       </Flex>
-      <Spacer />
       <Footer />
     </Flex>
   );

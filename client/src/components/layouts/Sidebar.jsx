@@ -1,5 +1,4 @@
 import {
-  Box,
   CloseButton,
   Drawer,
   DrawerContent,
@@ -7,17 +6,28 @@ import {
   Icon,
   IconButton,
   Link,
-  Text,
+  chakra,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
-import { FiCompass, FiHome, FiMenu, FiSettings } from 'react-icons/fi';
+import {
+  FiFeather,
+  FiLogOut,
+  FiMenu,
+  FiMonitor,
+  FiSettings,
+  FiSmile,
+  FiUsers,
+} from 'react-icons/fi';
+import { useAuth } from '../../contexts/AuthContext';
 
-const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Settings', icon: FiSettings },
+const linkItems = [
+  { name: 'Dashboard', icon: FiMonitor, path: '' },
+  { name: 'Vaccine', icon: FiFeather, path: 'vaccine' },
+  { name: 'Vaccinator', icon: FiSmile, path: 'vaccinator' },
+  { name: 'Patient', icon: FiUsers, path: 'patient' },
+  { name: 'Settings', icon: FiSettings, path: 'settings' },
 ];
 
 export default function Sidebar() {
@@ -26,7 +36,7 @@ export default function Sidebar() {
     <>
       <SidebarContent
         onClose={() => onClose}
-        display={{ base: 'none', md: 'block' }}
+        display={{ base: 'none', md: 'flex' }}
       />
       <Drawer
         autoFocus={false}
@@ -46,34 +56,53 @@ export default function Sidebar() {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const auth = useAuth();
   return (
-    <Box
+    <Flex
       bg={useColorModeValue('white', 'gray.900')}
       borderRight='1px'
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
       w={{ base: 'full', md: 60 }}
-      pos='fixed'
+      py='4'
       h='full'
+      pos='fixed'
+      justifyContent='space-between'
+      flexDir='column'
       {...rest}>
-      <Flex h='20' alignItems='center' mx='8' justifyContent='space-between'>
-        <Text fontSize='2xl' fontFamily='monospace' fontWeight='bold'>
-          Logo
-        </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+      <Flex flexDir='column'>
+        <Flex h='20' alignItems='center' mx='8' justifyContent='space-between'>
+          <Link
+            href='/'
+            fontSize='xl'
+            fontWeight='bold'
+            _hover={{
+              textDecoration: 'none',
+            }}>
+            Vaccination
+            <chakra.span color='red.500'> Log</chakra.span>
+          </Link>
+          <CloseButton
+            display={{ base: 'flex', md: 'none' }}
+            onClick={onClose}
+          />
+        </Flex>
+        {linkItems.map(link => (
+          <NavItem key={link.name} icon={link.icon} path={link.path}>
+            {link.name}
+          </NavItem>
+        ))}
       </Flex>
-      {LinkItems.map(link => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
-      ))}
-    </Box>
+      <NavItem icon={FiLogOut} onClick={() => auth.signOut()}>
+        Sign Out
+      </NavItem>
+    </Flex>
   );
 };
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, path, children, ...rest }) => {
   return (
     <Link
-      href='#'
+      href={'/' + path}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}>
       <Flex
@@ -122,10 +151,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
         aria-label='open menu'
         icon={<FiMenu />}
       />
-
-      <Text fontSize='2xl' ml='8' fontFamily='monospace' fontWeight='bold'>
-        Logo
-      </Text>
+      <Link
+        href='/'
+        ml='4'
+        fontSize='xl'
+        fontWeight='bold'
+        _hover={{
+          textDecoration: 'none',
+        }}>
+        Vaccination
+        <chakra.span color='red.500'> Log</chakra.span>
+      </Link>
     </Flex>
   );
 };
