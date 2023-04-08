@@ -1,16 +1,26 @@
 import {
   Button,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
   Image,
-  Input,
   Link,
   Stack,
+  chakra,
 } from '@chakra-ui/react';
+import { useForm } from 'react-hook-form';
+import FormInput from '../components/ui/FormElements/FormInput';
 
 export default function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = data => {
+    // Do something with the form data
+    console.log(data);
+  };
   return (
     <Stack
       h='full'
@@ -20,19 +30,38 @@ export default function Login() {
       justifySelf='center'
       alignSelf='center'>
       <Flex p={8} flex={1} align='center' justify='center'>
-        <Stack spacing={4} w='full' maxW='md'>
+        <Stack
+          as={chakra.form}
+          spacing={4}
+          w='full'
+          maxW='md'
+          onSubmit={handleSubmit(onSubmit)}>
           <Heading fontSize='2xl'>Sign in to your account</Heading>
-          <FormControl id='email'>
-            <FormLabel>Email address</FormLabel>
-            <Input type='email' />
-          </FormControl>
-          <FormControl id='password'>
-            <FormLabel>Password</FormLabel>
-            <Input type='password' />
-          </FormControl>
+          <FormInput
+            name='email'
+            type='email'
+            label='Email address'
+            register={register}
+            rules={{
+              required: 'Email is required',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Invalid email address',
+              },
+            }}
+            errors={errors}
+          />
+          <FormInput
+            name='password'
+            type='password'
+            label='Password'
+            register={register}
+            rules={{ required: 'Password is required' }}
+            errors={errors}
+          />
           <Stack spacing={6}>
             <Link color='blue.500'>Forgot password?</Link>
-            <Button colorScheme='blue' variant='solid'>
+            <Button colorScheme='blue' variant='solid' type='submit'>
               Sign in
             </Button>
           </Stack>
