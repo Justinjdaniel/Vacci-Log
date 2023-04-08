@@ -16,18 +16,19 @@ import {
   FiLogOut,
   FiMenu,
   FiMonitor,
-  FiSettings,
+  // FiSettings,
   FiSmile,
   FiUsers,
 } from 'react-icons/fi';
 import { useAuth } from '../../contexts/AuthContext';
+import NavItem from '../ui/Buttons/NavItem';
 
 const linkItems = [
-  { name: 'Dashboard', icon: FiMonitor, path: '' },
+  { name: 'Dashboard', icon: FiMonitor, path: 'dashboard' },
   { name: 'Vaccine', icon: FiFeather, path: 'vaccine' },
   { name: 'Vaccinator', icon: FiSmile, path: 'vaccinator' },
   { name: 'Patient', icon: FiUsers, path: 'patient' },
-  { name: 'Settings', icon: FiSettings, path: 'settings' },
+  // { name: 'Settings', icon: FiSettings, path: 'settings' },
 ];
 
 export default function Sidebar() {
@@ -92,44 +93,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </NavItem>
         ))}
       </Flex>
-      <NavItem icon={FiLogOut} onClick={() => auth.signOut()}>
+      <NavItem icon={FiLogOut} onClick={() => auth.signOut(()=>{})} path='/login'>
         Sign Out
       </NavItem>
     </Flex>
-  );
-};
-
-const NavItem = ({ icon, path, children, ...rest }) => {
-  return (
-    <Link
-      href={'/' + path}
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}>
-      <Flex
-        align='center'
-        p='4'
-        mx='4'
-        borderRadius='lg'
-        role='group'
-        cursor='pointer'
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}>
-        {icon && (
-          <Icon
-            mr='4'
-            fontSize='16'
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Link>
   );
 };
 

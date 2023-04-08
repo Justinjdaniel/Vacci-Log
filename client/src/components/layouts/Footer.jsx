@@ -22,6 +22,7 @@ export default function Footer() {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}>
         <Text>© 2023 Made with passion.</Text>
+        <Text textTransform='capitalize' fontFamily='cursive'>by Justin J</Text>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'LinkedIn'} href={'#'}>
             <FaLinkedinIn />
