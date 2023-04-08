@@ -2,7 +2,7 @@ import { Vaccinator } from '../models/index.js';
 import { contractInstance } from '../services/index.js';
 import getEventValue from '../utils/getEventValue.js';
 import { sendError, sendResponse } from '../utils/helpers.util.js';
-import { intToObjectId, objectIdToInt } from '../utils/objectIdConverter.js';
+import { intToObjectId} from '../utils/objectIdConverter.js';
 
 /**
  * Registers a vaccinator in the blockchain and database

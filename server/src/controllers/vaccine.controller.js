@@ -2,6 +2,7 @@ import { Vaccine } from '../models/index.js';
 import { contractInstance } from '../services/index.js';
 import getEventValue from '../utils/getEventValue.js';
 import { sendError, sendResponse } from '../utils/helpers.util.js';
+import { intToObjectId } from '../utils/objectIdConverter.js';
 
 /**
  * Registers a vaccine in the blockchain and database
@@ -70,7 +71,7 @@ export const registerVaccine = async (req, res) => {
     return sendError(res, 400, 'Failed to add to DB');
   } catch (error) {
     // If any error occurs during the process, send back an error message with the error details
-    return sendError(res, 400, 'Vaccinator registration failed', error);
+    return sendError(res, 500, 'Vaccinator registration failed', error);
   }
 };
 
