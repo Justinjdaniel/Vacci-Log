@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import router from './routes';
@@ -12,7 +13,9 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>{router.map(renderRoute)}</Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>{router.map(renderRoute)}</Routes>
+        </Suspense>
       </AuthProvider>
     </BrowserRouter>
   );

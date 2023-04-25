@@ -1,10 +1,12 @@
 import { RequireAuth } from '../contexts/AuthContext';
 import AppLayout from '../layouts/AppLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
-import Dashboard from '../pages/Dashboard';
-import Login from '../pages/Login';
-import NotFoundPage from '../pages/NotFoundPage';
-import Overview from '../pages/Overview';
+import { lazy } from 'react';
+const Dashboard = lazy(() => import('../pages/Dashboard'));
+const Login = lazy(() => import('../pages/Login'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage'));
+const Welcome = lazy(() => import('../pages/Welcome'));
+
 
 const router = [
   {
@@ -12,7 +14,7 @@ const router = [
     element: <AppLayout />,
     index: true,
     children: [
-      { path: '/', element: <Overview />, index: true },
+      { path: '/', element: <Welcome />, index: true },
       { path: 'login', element: <Login /> },
       { path: '*', element: <NotFoundPage /> },
     ],
@@ -25,7 +27,12 @@ const router = [
       </RequireAuth>
     ),
     index: true,
-    children: [{ path: 'dashboard', element: <Dashboard /> }],
+    children: [
+      { path: 'dashboard', element: <Dashboard /> },
+      { path: 'vaccine', element: <Dashboard /> },
+      { path: 'vaccinator', element: <Dashboard /> },
+      { path: 'patient', element: <Dashboard /> },
+    ],
   },
 ];
 
