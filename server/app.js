@@ -6,8 +6,8 @@ import logger from 'morgan';
 import path from 'path';
 import __dirname from './dirname.js';
 
-import { errorGenerator, errorHandler } from '#utils/errorHandler.js'; 
 import routes from '#routes/index.js';
+import { errorGenerator, errorHandler } from '#utils/errorHandler.js';
 
 const app = express();
 

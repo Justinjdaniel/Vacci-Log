@@ -1,68 +1,44 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
+// Import dependencies
 import debugLib from 'debug';
 import http from 'http';
-
 import app from '../app.js';
 import connectDB from '../src/config/mongoDB.js';
 
 const debug = debugLib('vacci-log:server');
 
-/**
- * Get port from environment and store in Express.
- */
-
+// Set the port for the application
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
+// Create the HTTP server
 const server = http.createServer(app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
+// Start the server and add event listeners
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-/**
- * Connect MongoDB to server.
- */
-
+// Connect to MongoDB
 connectDB();
 
-/**
- * Normalize a port into a number, string, or false.
- */
-
+// Normalize the port value
 function normalizePort(val) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
-    // named pipe
-    return val;
+    return val; // named pipe
   }
 
   if (port >= 0) {
-    // port number
-    return port;
+    return port; // port number
   }
 
   return false;
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
+// Handle server errors
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
@@ -70,7 +46,7 @@ function onError(error) {
 
   const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
+  // Display friendly error messages
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -83,10 +59,7 @@ function onError(error) {
   }
 }
 
-/**
- * Event listener for HTTP server "listening" event.
- */
-
+// Log server listening information
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
