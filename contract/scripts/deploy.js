@@ -1,5 +1,4 @@
-import fs from 'fs';
-import __dirname from '../dirname.js';
+const fs = require("fs");
 
 async function main() {
   const VaccinationLog = await ethers.getContractFactory('VaccinationLog');

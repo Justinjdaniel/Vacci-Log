@@ -1,7 +1,6 @@
 const VaccinationLog = artifacts.require('VaccinationLog');
 const fs = require('fs');
 const path = require('path');
-const { ethers } = require('hardhat');
 
 module.exports = async function (deployer) {
   // Use deployer to state migration tasks.
@@ -12,13 +11,10 @@ module.exports = async function (deployer) {
   const contractAddress = vaccinationLog.address;
   // Get the deployer address
   const deployerAddress = deployer.networks[deployer.network].from;
-  // Get the deployment time
-  const deploymentTime = (await ethers.provider.getBlock('latest')).timestamp;
   // Create an object with the addresses
   const addresses = {
     contractAddress,
     deployerAddress,
-    deploymentTime,
   };
   // Get the path to the parent folder
   const parentPath = path.join(__dirname, '.');
