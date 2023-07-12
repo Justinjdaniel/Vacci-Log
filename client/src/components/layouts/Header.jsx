@@ -16,7 +16,13 @@ function Header() {
   const color = useColorModeValue('gray.800', 'white');
 
   return (
-    <Box bg={bgColor} px={4} boxShadow='md'>
+    <Box
+      bg={bgColor}
+      px={4}
+      boxShadow='md'
+      position='sticky'
+      top='0'
+      zIndex='1'>
       <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <Link
           href={'/'}
