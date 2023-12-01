@@ -5,15 +5,42 @@
       "path": "client"
     },
     {
-      "name": "server",
+      "name": "SERVER",
       "path": "server"
-    },
+    }
   ],
+  "settings": {
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "files.exclude": {
+      "**/.git": true,
+      "**/.gitignore": true,
+      "**/.eslint*": true,
+      "**/.prettier*": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.svn": true,
+      "**/cache": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/node_modules": true,
+      "**/package-lock.json": true
+    },
+    "cSpell.words": ["maticmum", "vacci"]
+  },
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
       "esbenp.prettier-vscode",
-      "aaron-bond.better-comments"
+      "aaron-bond.better-comments",
+      "christian-kohler.path-intellisense",
+      "joshx.workspace-terminals",
+      "streetsidesoftware.code-spell-checker",
+      "github.vscode-pull-request-github",
+      "oderwat.indent-rainbow",
+      "nomicfoundation.hardhat-solidity",
+      "redhat.vscode-yaml"
     ]
   }
 }
