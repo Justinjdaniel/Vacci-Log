@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import { User } from '../models/index.js';
-import ApiError from '../utils/ApiError.js';
+import ApiError from '../utils/api-error.util.js';
 
 const { BAD_REQUEST } = httpStatus;
 /**
@@ -20,18 +20,14 @@ const createUser = async (userBody) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUserById = async (id) => {
-  return User.findById(id);
-};
+const getUserById = async (id) => User.findById(id);
 
 /**
  * Get user by email
  * @param {string} email
  * @returns {Promise<User>}
  */
-const getUserByEmail = async (email) => {
-  return User.findOne({ email });
-};
+const getUserByEmail = async (email) => User.findOne({ email });
 
 export default {
   createUser,

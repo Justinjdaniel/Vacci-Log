@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs';
-import { model, Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import validator from 'validator';
 import { toJSON } from './plugins/index.js';
 

@@ -3,10 +3,10 @@
 pragma solidity >=0.8.2 <0.9.0;
 
 /**
- * @title VaccinationLog
+ * @title VaccinationLogLight
  * @dev Store & retrieve data of vaccination and related participants.
  */
-contract VaccinationLog {
+contract VaccinationLogLight {
     enum Sex {
         male,
         female,
