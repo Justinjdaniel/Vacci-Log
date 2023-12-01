@@ -1,7 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { jwt } from '../config/config';
 
-const secret = jwt.secret;
+const { secret } = jwt;
 
 /**
  * Generate a JWT token
