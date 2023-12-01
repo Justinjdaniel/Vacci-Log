@@ -2,6 +2,7 @@ import { AlchemyProvider, Contract, Wallet } from 'ethers';
 import artifacts from '../../contracts/VaccinationLog.json' assert { type: 'json' };
 import { alchemyKey, contractAddress, wallet } from '../config/config.js';
 
+const isGanache = false;
 const NETWORK = 'maticmum';
 
 // Create a provider
