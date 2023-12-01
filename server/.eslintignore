@@ -1,2 +1,7 @@
-node_modules
+# Ignore artifacts
+artifacts
+cache
 bin
+
+## Ignore node modules
+node_modules
