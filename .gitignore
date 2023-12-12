@@ -1,0 +1,8 @@
+server/package-lock.json
+old/
+server/cache
+server/build
+server/artifacts
+server/scripts/deploy.json
+server/keys.json
+/node_modules
